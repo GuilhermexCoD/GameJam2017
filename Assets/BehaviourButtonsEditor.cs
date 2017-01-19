@@ -22,5 +22,10 @@ namespace BitStrap
 		{
 			helper.Init( target );
 		}
+
+        private void helloWorld()
+        {
+            //code
+        }
 	}
 }
