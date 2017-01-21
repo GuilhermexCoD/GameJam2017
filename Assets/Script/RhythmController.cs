@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class RhythmController : MonoBehaviour {
 
-	public RhythmController singleton;
+	public static RhythmController singleton;
 
 	public Text timer;
 
@@ -19,6 +19,7 @@ public class RhythmController : MonoBehaviour {
 	public List<int> music = new List<int> ();
 	public int musicSize;
 	public int activeLine;
+    public List<KeyCode> validKeys = new List<KeyCode>();
 
 	public Vector3 targetPosition;
 
@@ -30,6 +31,18 @@ public class RhythmController : MonoBehaviour {
 	/// The waypoints of the lines.
 	/// </summary>
 	public List<GameObject> waypoints = new List<GameObject>();
+
+    private void Start()
+    {
+        if(singleton != null)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            singleton = this;
+        }
+    }
 
 	List<GameObject> lineList = new List<GameObject>();
 	void Awake ()
@@ -83,9 +96,9 @@ public class RhythmController : MonoBehaviour {
 
 		foreach (var item in lineList) {
 			if (lineList.IndexOf (item) == activeLine) {
-				lineList [activeLine].GetComponent<LineController> ().active = true;
+				lineList [activeLine].GetComponent<LineController> ().isActive = true;
 			} else {
-				lineList [activeLine].GetComponent<LineController> ().active = false;
+				lineList [activeLine].GetComponent<LineController> ().isActive = false;
 			}
 		}
 

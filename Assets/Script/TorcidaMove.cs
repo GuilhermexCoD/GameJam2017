@@ -20,14 +20,14 @@ public class TorcidaMove : MonoBehaviour {
 	[SerializeField]
 	float amplitude;
 
-	bool stop;
+	public bool stop;
 	public bool notMoving;
 
 	Vector3 myStartTransform;
 
 	float timer;
 
-	int countMovement;
+	public int countMovement;
 
 	// Use this for initialization
 	void Start () {
@@ -84,9 +84,7 @@ public class TorcidaMove : MonoBehaviour {
 	}
 
 	public void StopMoving(){
-
 		stop = true;
-
 	}
 	public void StartMoving(){
 		stop = false;

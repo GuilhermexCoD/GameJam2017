@@ -24,24 +24,24 @@ public class CharacterCreation : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-		int rnd = Random.Range (0, head.Count);
+		int rnd = Random.Range (0, head.Count-1);
 		headPart.sprite = head [rnd];
-		rnd = Random.Range (0, decal.Count);
+		rnd = Random.Range (0, decal.Count-1);
 		decalPart.sprite = decal [rnd];
-		rnd = Random.Range (0, upperBody.Count);
+		rnd = Random.Range (0, upperBody.Count-1);
 		upperBodyPart.sprite = upperBody [rnd];
-		rnd = Random.Range (0, legL.Count);
+		rnd = Random.Range (0, legL.Count-1);
 		legLPart.sprite = legL [rnd];
 		legRPart.sprite = legR [rnd];
 
-		rnd = Random.Range (0, arm.Count);
+		rnd = Random.Range (0, arm.Count-1);
 		armPart.sprite = arm [rnd];
 
 	
 
 
 
-		rnd = Random.Range (0, SkinColor.Count);
+		rnd = Random.Range (0, SkinColor.Count-1);
 		headPart.color = SkinColor [rnd];
 		armPart.color = SkinColor [rnd];
 		handPart.color = SkinColor [rnd];
