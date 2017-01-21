@@ -1,8 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RhythmController : MonoBehaviour {
+
+	public RhythmController singleton;
+
+	public Text timer;
 
 	float timing, spaceTime, prevBeat;
 	public float timeSet, actionTime;
@@ -25,6 +30,8 @@ public class RhythmController : MonoBehaviour {
 	/// The waypoints of the lines.
 	/// </summary>
 	public List<GameObject> waypoints = new List<GameObject>();
+
+	List<GameObject> lineList = new List<GameObject>();
 	void Awake ()
 	{
 		activeLine = 0;
@@ -43,6 +50,13 @@ public class RhythmController : MonoBehaviour {
 
 	void FixedUpdate () 
 	{
+
+		timer.text = timing.ToString();
+		if (action) {
+			timer.text += " Go";
+		}
+
+
 //		Debug.Log (action);
 		if (Time.fixedTime >= spaceTime)					//Marca o inicio do espaco pra acao do jogador...
 		{
@@ -66,6 +80,18 @@ public class RhythmController : MonoBehaviour {
 		}
 
 		targetPosition = waypoints [activeLine].transform.position;
+
+		foreach (var item in lineList) {
+			if (lineList.IndexOf (item) == activeLine) {
+				lineList [activeLine].GetComponent<LineController> ().active = true;
+			} else {
+				lineList [activeLine].GetComponent<LineController> ().active = false;
+			}
+		}
+
+	
+
+
 
 //		this.transform.position = Vector3.Lerp (this.transform.position, targetPosition, Time.fixedDeltaTime * 2);
 

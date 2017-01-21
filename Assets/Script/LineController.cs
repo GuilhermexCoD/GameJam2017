@@ -18,6 +18,10 @@ public class LineController : MonoBehaviour {
 	int waveCount;
 	bool everyoneStopped;
 
+	public bool active;
+
+	int[] Music = new int[10];
+
 	void Awake(){
 
 		frequency = 1;
@@ -31,7 +35,6 @@ public class LineController : MonoBehaviour {
 			if (this.transform.GetChild(i).GetComponent<CharacterCreation>() != null) {
 				Characters.Add (this.transform.GetChild(i).gameObject);
 			}
-			
 		}
 
 
