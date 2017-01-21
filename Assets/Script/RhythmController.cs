@@ -20,7 +20,8 @@ public class RhythmController : MonoBehaviour {
 	public int musicSize;
 	public int activeLine;
     public List<KeyCode> validKeys = new List<KeyCode>();
-
+	public List<int> validKeysInt = new List<int>();
+	public List<Sprite> validKeysSprite = new List<Sprite> ();
 	public Vector3 targetPosition;
 
 	/// <summary>
@@ -34,7 +35,12 @@ public class RhythmController : MonoBehaviour {
 	public List<GameObject> lineList = new List<GameObject>();
 	void Awake ()
 	{
-            lineList[activeLine].GetComponent<LineController>().isActive = true;
+
+		for (int i = 0; i < validKeys.Count; i++) {
+			validKeysInt.Add( ConvertKey2Int (validKeys [i]));
+		}
+
+        lineList[activeLine].GetComponent<LineController>().isActive = true;
 
         if (singleton != null)
         {
@@ -116,6 +122,9 @@ public class RhythmController : MonoBehaviour {
 		this.transform.position =targetPosition;
 
 
+	}
+	public int ConvertKey2Int(KeyCode key){
+		return (int)key;
 	}
 
 

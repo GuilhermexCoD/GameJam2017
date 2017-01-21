@@ -29,6 +29,8 @@ public class TorcidaMove : MonoBehaviour {
 
 	public int countMovement;
 
+	public SpriteRenderer keySprite;
+
 	// Use this for initialization
 	void Start () {
 //		myStartTransform = this.transform.position+ new Vector3(0,-amplitude,0);
@@ -88,6 +90,17 @@ public class TorcidaMove : MonoBehaviour {
 	}
 	public void StartMoving(){
 		stop = false;
+	}
+
+	public void ChooseKey(KeyCode key){
+		for (int i = 0; i < RhythmController.singleton.validKeysInt.Count; i++) {
+			if (RhythmController.singleton.ConvertKey2Int(key) == RhythmController.singleton.validKeysInt[i]) {
+				int x = RhythmController.singleton.validKeysInt.IndexOf(RhythmController.singleton.validKeysInt[i]);
+				keySprite.sprite = RhythmController.singleton.validKeysSprite[x];
+			}
+		}
+
+
 	}
 		
 }

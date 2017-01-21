@@ -26,7 +26,9 @@ public class LineController : MonoBehaviour
             
             Characters.Add(this.transform.GetChild(i).gameObject);
             sequence.Add(randomizeKey());
+			Characters [i].GetComponent<TorcidaMove> ().ChooseKey (sequence[i]);
         }
+
     }
     // Update is called once per frame
     void FixedUpdate()
