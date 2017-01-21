@@ -23,7 +23,6 @@ public class CharacterCreation : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
 		int rnd = Random.Range (0, head.Count-1);
 		headPart.sprite = head [rnd];
 		rnd = Random.Range (0, decal.Count-1);

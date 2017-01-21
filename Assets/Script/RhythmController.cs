@@ -31,10 +31,12 @@ public class RhythmController : MonoBehaviour {
 	/// The waypoints of the lines.
 	/// </summary>
 	public List<GameObject> waypoints = new List<GameObject>();
+	public List<GameObject> lineList = new List<GameObject>();
+	void Awake ()
+	{
+            lineList[activeLine].GetComponent<LineController>().isActive = true;
 
-    private void Start()
-    {
-        if(singleton != null)
+        if (singleton != null)
         {
             Destroy(this.gameObject);
         }
@@ -42,12 +44,9 @@ public class RhythmController : MonoBehaviour {
         {
             singleton = this;
         }
-    }
+        DontDestroyOnLoad(this.gameObject);
 
-	List<GameObject> lineList = new List<GameObject>();
-	void Awake ()
-	{
-		activeLine = 0;
+        activeLine = 0;
 		if (waypoints.Count !=0) {
 			targetPosition = waypoints [0].transform.position;
 		}
@@ -64,7 +63,7 @@ public class RhythmController : MonoBehaviour {
 	void FixedUpdate () 
 	{
 
-		timer.text = timing.ToString();
+		//timer.text = timing.ToString();
 		if (action) {
 			timer.text += " Go";
 		}
@@ -87,20 +86,36 @@ public class RhythmController : MonoBehaviour {
 
 		if (Input.GetKeyDown(KeyCode.UpArrow) && activeLine != 0) {
 			activeLine--;
-		}
-		if (Input.GetKeyDown(KeyCode.DownArrow) && activeLine != 2) {
+            foreach (var item in lineList)
+            {
+                if (lineList.IndexOf(item) == activeLine)
+                {
+                    lineList[activeLine].GetComponent<LineController>().isActive = true;
+                }
+                else
+                {
+                    lineList[activeLine].GetComponent<LineController>().isActive = false;
+                }
+            }
+        }
+		if (Input.GetKeyDown(KeyCode.DownArrow) && activeLine != 0) {
 			activeLine++;
-		}
+            foreach (var item in lineList)
+            {
+                if (lineList.IndexOf(item) == activeLine)
+                {
+                    lineList[activeLine].GetComponent<LineController>().isActive = true;
+                }
+                else
+                {
+                    lineList[activeLine].GetComponent<LineController>().isActive = false;
+                }
+            }
+        }
 
 		targetPosition = waypoints [activeLine].transform.position;
 
-		foreach (var item in lineList) {
-			if (lineList.IndexOf (item) == activeLine) {
-				lineList [activeLine].GetComponent<LineController> ().isActive = true;
-			} else {
-				lineList [activeLine].GetComponent<LineController> ().isActive = false;
-			}
-		}
+
 
 	
 
@@ -112,4 +127,6 @@ public class RhythmController : MonoBehaviour {
 
 
 	}
+
+
 }

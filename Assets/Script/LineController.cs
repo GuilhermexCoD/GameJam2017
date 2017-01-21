@@ -9,14 +9,14 @@ public class LineController : MonoBehaviour
     public bool isActive;
     public List<KeyCode> sequence = new List<KeyCode>();
     public List<GameObject> Characters = new List<GameObject>();
-    public float missTimer;
+    float missTimer;
     public int activeCell;
     public float maxMissTime;
 
 
-    void Awake()
+
+    void Start()
     {
-        maxMissTime = 0;
         activeCell = 0;
         missTimer = 0;
         completedLine = false;
@@ -37,24 +37,44 @@ public class LineController : MonoBehaviour
         {
             //Mostrar teclas
             print("Char to press: " + sequence[activeCell]);
+            RhythmController.singleton.timer.text = sequence[activeCell].ToString();
             //For each valid key
-            for(int i = 0; i<RhythmController.singleton.validKeys.Count-1; i++)
+            for (int i = 0; i<RhythmController.singleton.validKeys.Count-1; i++)
             {
                 if (Input.GetKeyDown(RhythmController.singleton.validKeys[i]) && (sequence[activeCell] == RhythmController.singleton.validKeys[i]))
                 {
+                    print("Apertei certo");
                     if (RhythmController.singleton.action)
                     {
-                        RhythmController.singleton.timer.text = "Acertou";
-                        if(activeCell < sequence.Count) activeCell++;
+                        RhythmController.singleton.timer.text += "Acertou";
+                        if (activeCell < sequence.Count-1) activeCell++;
+                        else
+                        {
+                            activeCell = 0;
+                            restartLine();
+                            
+                            print("GANHOU CARALHO");
+                        }
                         //Acertou, colocar pontos
+                        print("Acertou");
                         missedTiming = false;
                     }
                     else
                     {
+                        print("Errou");
                         restartLine();
                         missedTiming = true;
                         //bloquear linha por tempo
+                        isActive = false;
                     }
+                }
+                else if(Input.GetKeyDown(RhythmController.singleton.validKeys[i]))
+                {
+                    print("Errou");
+                    restartLine();
+                    missedTiming = true;
+                    isActive = false;
+                    //bloquear linha por tempo
                 }
             }
         }
@@ -65,6 +85,7 @@ public class LineController : MonoBehaviour
             if(missTimer >= maxMissTime)
             {
                 restartLine();
+                print("Reset timer");
             }
         }
     }
@@ -76,10 +97,12 @@ public class LineController : MonoBehaviour
 
     public void restartLine()
     {
+        isActive = true;
         activeCell = 0;
         missTimer = 0;
         completedLine = false;
         missedTiming = false;
+        sequence.Clear();
         for (int i = 0; i < this.transform.childCount; i++)
         {
             sequence.Add(randomizeKey());

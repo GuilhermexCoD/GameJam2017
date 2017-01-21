@@ -1125,7 +1125,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   frequency: 2.5
   amplitude: 2
+  stop: 0
   notMoving: 0
+  countMovement: 0
 --- !u!212 &497064965 stripped
 SpriteRenderer:
   m_PrefabParentObject: {fileID: 212445353790363768, guid: e89a0ebf594203949a5b6c72dd68275c,
@@ -1755,7 +1757,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09fcd8174805961448c4a7e231fd5aaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  singleton: {fileID: 0}
   timer: {fileID: 728116958}
   timeSet: 1
   actionTime: 0.2
@@ -1765,6 +1766,7 @@ MonoBehaviour:
   music: 
   musicSize: 50
   activeLine: 0
+  validKeys: 61000000730000006400000066000000
   targetPosition: {x: 0, y: 0, z: 0}
   speed: 10
   waypoints:
@@ -3113,12 +3115,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1317541362}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04a061f54f008d1449cd91c08bec6c59, type: 3}
+  m_Script: {fileID: 11500000, guid: 01e49a730ddf6b5419005bf82d687c74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  completedLine: 0
+  missedTiming: 0
+  isActive: 0
+  sequence: 
   Characters: []
-  waveDelay: 0.2
-  active: 0
+  activeCell: 0
+  maxMissTime: 10
 --- !u!4 &1317541364
 Transform:
   m_ObjectHideFlags: 0
@@ -3370,7 +3376,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   frequency: 2.5
   amplitude: 2
+  stop: 0
   notMoving: 0
+  countMovement: 0
 --- !u!114 &1431549931
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3744,7 +3752,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   frequency: 2.5
   amplitude: 2
+  stop: 0
   notMoving: 0
+  countMovement: 0
 --- !u!114 &1632681060
 MonoBehaviour:
   m_ObjectHideFlags: 0
