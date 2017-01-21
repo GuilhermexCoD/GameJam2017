@@ -21,6 +21,7 @@ public class TorcidaMove : MonoBehaviour {
 	float amplitude;
 
 	bool stop;
+	public bool notMoving;
 
 	Vector3 myStartTransform;
 
@@ -49,10 +50,6 @@ public class TorcidaMove : MonoBehaviour {
 
 		pingPongY = Mathf.PingPong (timer*frequency,amplitude);
 
-
-		if (Input.GetKeyDown(KeyCode.A)) {
-			stop = !stop;
-		}
 	}
 	/// <summary>
 	/// Changes the frequency.
@@ -82,8 +79,18 @@ public class TorcidaMove : MonoBehaviour {
 			this.transform.position = new Vector3 (this.transform.position.x, lerp, this.transform.position.z);
 		} else {
 			this.transform.position = myStartTransform;
+			notMoving = true;
 		}
 
+	}
+
+	public void StopMoving(){
+
+		stop = true;
+
+	}
+	public void StartMoving(){
+		stop = false;
 	}
 		
 }
