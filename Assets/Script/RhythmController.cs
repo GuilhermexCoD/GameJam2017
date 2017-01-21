@@ -8,6 +8,10 @@ public class RhythmController : MonoBehaviour {
 	public static RhythmController singleton;
 
 	public Text timer;
+	public Text activeLineText;
+	public Text activeLineText1;
+	public Text activeLineText2;
+	public Button pressButton;
 
 	float timing, spaceTime, prevBeat;
 	public float timeSet, actionTime;
@@ -20,6 +24,7 @@ public class RhythmController : MonoBehaviour {
 	public int musicSize;
 	public int activeLine;
     public List<KeyCode> validKeys = new List<KeyCode>();
+	public List<KeyCode> validKeysJoystick = new List<KeyCode>();
 	public List<int> validKeysInt = new List<int>();
 	public List<Sprite> validKeysSprite = new List<Sprite> ();
 	public Vector3 targetPosition;
@@ -64,6 +69,10 @@ public class RhythmController : MonoBehaviour {
 		for (int i = 0; i < musicSize; i++) {
 			music.Add (Random.Range(0,3));
 		}
+
+		foreach (var item in lineList) {
+			item.GetComponent<LineController> ().myIndex = lineList.IndexOf (item);
+		}
 	}
 
 	void FixedUpdate () 
@@ -72,6 +81,11 @@ public class RhythmController : MonoBehaviour {
 		//timer.text = timing.ToString();
 		if (action) {
 			timer.text += " Go";
+		}
+		if (action) {
+			pressButton.image.color = Color.green;
+		} else {
+			pressButton.image.color  = Color.red;
 		}
 
 
@@ -89,22 +103,31 @@ public class RhythmController : MonoBehaviour {
 			newWave = Instantiate (wave) as GameObject;
 			Destroy (newWave, 0.50f);
 		}
-
+		//comandos setas
 		if (Input.GetKeyDown(KeyCode.UpArrow) && activeLine != 0) {
-			lineList[activeLine].GetComponent<LineController>().isActive = false;
-
+			foreach (var item in lineList) {
+				lineList[activeLine].GetComponent<LineController>().isActive = false;
+			}
 			activeLine--;
 
-			lineList[activeLine].GetComponent<LineController>().isActive = true;
+			if (!lineList[activeLine].GetComponent<LineController>().missedTiming) {
+				lineList[activeLine].GetComponent<LineController>().isActive = true;
+			}
         }
 		if (Input.GetKeyDown(KeyCode.DownArrow) && activeLine != lineList.Count-1) {
-			
-			lineList[activeLine].GetComponent<LineController>().isActive = false;
+			foreach (var item in lineList) {
+				lineList[activeLine].GetComponent<LineController>().isActive = false;
+			}
+
 
 			activeLine++;
+			if (!lineList[activeLine].GetComponent<LineController>().missedTiming) {
+				lineList[activeLine].GetComponent<LineController>().isActive = true;
+			}
 
-			lineList[activeLine].GetComponent<LineController>().isActive = true;
         }
+		//fim comandos seta
+
         if(lineList[activeLine].GetComponent<LineController>().isActive == false)
         {
             timer.text = lineList[activeLine].GetComponent<LineController>().sequence[lineList[activeLine].GetComponent<LineController>().activeCell].ToString();
@@ -113,8 +136,10 @@ public class RhythmController : MonoBehaviour {
 
 
 
-	
-
+			
+		activeLineText.text = " 1 "+lineList[0].GetComponent<LineController>().isActive.ToString();
+		activeLineText1.text = " 2 "+lineList[1].GetComponent<LineController>().isActive.ToString();
+		activeLineText2.text = " 3 "+lineList[2].GetComponent<LineController>().isActive.ToString();
 
 
 //		this.transform.position = Vector3.Lerp (this.transform.position, targetPosition, Time.fixedDeltaTime * 2);
