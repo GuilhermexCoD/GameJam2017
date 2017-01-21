@@ -3,30 +3,86 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class TorcidaMove : MonoBehaviour {
+	/// <summary>
+	/// The movement of the character in Y.
+	/// </summary>
+	float pingPongY;
 
-	float pingPong;
+	/// <summary>
+	/// The frequency.
+	/// </summary>
+	[SerializeField]
+	float frequency;
 
-	public float frequency;
+	/// <summary>
+	/// The amplitude.
+	/// </summary>
+	[SerializeField]
+	float amplitude;
 
-	public float amplitude;
+	bool stop;
 
-	Transform myStartTransform;
+	Vector3 myStartTransform;
+
+	float timer;
+
 
 	// Use this for initialization
 	void Start () {
-		myStartTransform = this.transform;
+		myStartTransform = this.transform.position;
+
+
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
 
-		pingPong = Mathf.PingPong (Time.time*frequency,amplitude);
+		timer += Time.fixedDeltaTime;
+
+		if (!stop) {
+			this.transform.position = new Vector3 (myStartTransform.x, myStartTransform.y +pingPongY, myStartTransform.z);
+		} else {
+			timer = 0;
+			ReturnToStartPos ();
+		}
+
+		pingPongY = Mathf.PingPong (timer*frequency,amplitude);
 
 
-		this.transform.position = new Vector3 (pingPong,this.transform.position.y,this.transform.position.z);
-
+		if (Input.GetKeyDown(KeyCode.A)) {
+			stop = !stop;
+		}
 	}
+	/// <summary>
+	/// Changes the frequency.
+	/// </summary>
+	/// <param name="_frequency">Frequency.</param>
 	public void ChangeFrequency (float _frequency ){
+		frequency = _frequency;
+	}
+	/// <summary>
+	/// Changes the amplitude.
+	/// </summary>
+	/// <param name="_amplitude">Amplitude.</param>
+	public void ChangeAmplitude (float _amplitude ){
+		amplitude = _amplitude;
+	}
+
+	/// <summary>
+	/// Returns to start position.
+	/// </summary>
+	public void ReturnToStartPos(){
+
+		float lerp = Mathf.Lerp (this.transform.position.y,myStartTransform.y,Time.fixedDeltaTime*frequency);
+		
+
+
+		if (this.transform.position.y >= myStartTransform.y + 0.1f) {
+			this.transform.position = new Vector3 (this.transform.position.x, lerp, this.transform.position.z);
+		} else {
+			this.transform.position = myStartTransform;
+		}
 
 	}
+		
 }
