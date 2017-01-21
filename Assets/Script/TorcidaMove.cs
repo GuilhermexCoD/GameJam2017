@@ -29,6 +29,7 @@ public class TorcidaMove : MonoBehaviour {
 
 	public int countMovement;
 
+	public SpriteRenderer boardSprite;
 	public SpriteRenderer keySprite;
 
 	// Use this for initialization

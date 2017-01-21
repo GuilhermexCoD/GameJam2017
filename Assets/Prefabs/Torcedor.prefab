@@ -616,6 +616,7 @@ MonoBehaviour:
   stop: 0
   notMoving: 0
   countMovement: 0
+  boardSprite: {fileID: 212542757742479594}
   keySprite: {fileID: 212037649819151542}
 --- !u!212 &212037649819151542
 SpriteRenderer:
