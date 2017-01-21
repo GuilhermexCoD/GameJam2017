@@ -21,7 +21,6 @@ public class LineController : MonoBehaviour
         missTimer = 0;
         completedLine = false;
         missedTiming = false;
-        isActive = false;
         for (int i = 0; i < this.transform.childCount; i++)
         {
             
@@ -46,7 +45,7 @@ public class LineController : MonoBehaviour
                     print("Apertei certo");
                     if (RhythmController.singleton.action)
                     {
-                        RhythmController.singleton.timer.text += "Acertou";
+                        RhythmController.singleton.timer.text = "Acertou";
                         if (activeCell < sequence.Count-1) activeCell++;
                         else
                         {
@@ -55,7 +54,7 @@ public class LineController : MonoBehaviour
                             
                             print("GANHOU CARALHO");
                         }
-                        //Acertou, colocar pontos
+                        //Acertou, colocar pontos, levantar placa do proximo,etc..
                         print("Acertou");
                         missedTiming = false;
                     }
@@ -64,7 +63,7 @@ public class LineController : MonoBehaviour
                         print("Errou");
                         restartLine();
                         missedTiming = true;
-                        //bloquear linha por tempo
+                        //bloquear linha por tempo, resetar animacoes, etc...
                         isActive = false;
                     }
                 }
