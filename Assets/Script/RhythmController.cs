@@ -7,6 +7,8 @@ public class RhythmController : MonoBehaviour {
 
 	public static RhythmController singleton;
 
+	public GameObject PlayerModel;
+
 	public Text timer;
 	public Text activeLineText;
 	public Text activeLineText1;
