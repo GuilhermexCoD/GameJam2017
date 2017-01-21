@@ -11,6 +11,8 @@ public class RhythmController : MonoBehaviour {
 	public Text activeLineText;
 	public Text activeLineText1;
 	public Text activeLineText2;
+	public Button pressButton;
+
 	float timing, spaceTime, prevBeat;
 	public float timeSet, actionTime;
 	public bool action;
@@ -79,6 +81,11 @@ public class RhythmController : MonoBehaviour {
 		//timer.text = timing.ToString();
 		if (action) {
 			timer.text += " Go";
+		}
+		if (action) {
+			pressButton.image.color = Color.green;
+		} else {
+			pressButton.image.color  = Color.red;
 		}
 
 

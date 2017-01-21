@@ -63,7 +63,8 @@ public class LineController : MonoBehaviour
                         else
                         {
                             activeCell = 0;
-                            restartLine();
+							//nao pode resetar de imediato
+//                            restartLine();
                             
                             print("GANHOU CARALHO");
                         }
@@ -76,7 +77,6 @@ public class LineController : MonoBehaviour
                     {
                         print("Errou");
 						Characters [activeCell].GetComponent<TorcidaMove> ().boardSprite.color = Color.red;
-                        restartLine();
                         missedTiming = true;
                         //bloquear linha por tempo, resetar animacoes, etc...
                         isActive = false;
@@ -86,7 +86,6 @@ public class LineController : MonoBehaviour
                 {
                     print("Errou");
 					Characters [activeCell].GetComponent<TorcidaMove> ().boardSprite.color = Color.red;
-                    restartLine();
                     missedTiming = true;
                     isActive = false;
                     //bloquear linha por tempo
@@ -123,6 +122,7 @@ public class LineController : MonoBehaviour
         sequence.Clear();
         for (int i = 0; i < this.transform.childCount; i++)
         {
+			Characters [i].GetComponent<TorcidaMove> ().boardSprite.color = Color.white;
             sequence.Add(randomizeKey());
         }
     }
