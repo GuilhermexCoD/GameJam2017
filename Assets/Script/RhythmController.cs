@@ -85,32 +85,19 @@ public class RhythmController : MonoBehaviour {
 		}
 
 		if (Input.GetKeyDown(KeyCode.UpArrow) && activeLine != 0) {
+			lineList[activeLine].GetComponent<LineController>().isActive = false;
+
 			activeLine--;
-            foreach (var item in lineList)
-            {
-                if (lineList.IndexOf(item) == activeLine)
-                {
-                    lineList[activeLine].GetComponent<LineController>().isActive = true;
-                }
-                else
-                {
-                    lineList[activeLine].GetComponent<LineController>().isActive = false;
-                }
-            }
+
+			lineList[activeLine].GetComponent<LineController>().isActive = true;
         }
 		if (Input.GetKeyDown(KeyCode.DownArrow) && activeLine != lineList.Count-1) {
+			
+			lineList[activeLine].GetComponent<LineController>().isActive = false;
+
 			activeLine++;
-            foreach (var item in lineList)
-            {
-                if (lineList.IndexOf(item) == activeLine)
-                {
-                    lineList[activeLine].GetComponent<LineController>().isActive = true;
-                }
-                else
-                {
-                    lineList[activeLine].GetComponent<LineController>().isActive = false;
-                }
-            }
+
+			lineList[activeLine].GetComponent<LineController>().isActive = true;
         }
         if(lineList[activeLine].GetComponent<LineController>().isActive == false)
         {
