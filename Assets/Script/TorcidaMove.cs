@@ -27,13 +27,13 @@ public class TorcidaMove : MonoBehaviour {
 
 	float timer;
 
+	int countMovement;
 
 	// Use this for initialization
 	void Start () {
+//		myStartTransform = this.transform.position+ new Vector3(0,-amplitude,0);
 		myStartTransform = this.transform.position;
-
-		frequency = Random.Range (1,10);
-		amplitude = Random.Range (0.5f,1.5f);
+		amplitude = 1;
 	}
 	
 	// Update is called once per frame
@@ -42,13 +42,14 @@ public class TorcidaMove : MonoBehaviour {
 		timer += Time.fixedDeltaTime;
 
 		if (!stop) {
-			this.transform.position = new Vector3 (myStartTransform.x, myStartTransform.y +pingPongY, myStartTransform.z);
+			this.transform.position = new Vector3 (myStartTransform.x, myStartTransform.y + Mathf.Abs(Mathf.Sin(timer*frequency/2))/amplitude, myStartTransform.z);
+			countMovement = (int)Mathf.Floor((timer * frequency / 2)/Mathf.PI);
 		} else {
 			timer = 0;
 			ReturnToStartPos ();
 		}
 
-		pingPongY = Mathf.PingPong (timer*frequency,amplitude);
+
 
 	}
 	/// <summary>
@@ -72,8 +73,6 @@ public class TorcidaMove : MonoBehaviour {
 	public void ReturnToStartPos(){
 
 		float lerp = Mathf.Lerp (this.transform.position.y,myStartTransform.y,Time.fixedDeltaTime*frequency);
-		
-
 
 		if (this.transform.position.y >= myStartTransform.y + 0.1f) {
 			this.transform.position = new Vector3 (this.transform.position.x, lerp, this.transform.position.z);

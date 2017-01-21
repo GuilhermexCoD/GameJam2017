@@ -20,8 +20,8 @@ public class LineController : MonoBehaviour {
 
 	void Awake(){
 
-		frequency = 0;
-		amplitude = 0;
+		frequency = 1;
+		amplitude = 1;
 		timer = 0;
 		waveCount = 0;
 
@@ -57,6 +57,9 @@ public class LineController : MonoBehaviour {
 				Characters [waveCount].GetComponent<TorcidaMove> ().ChangeAmplitude (amplitude);
 				Characters [waveCount].GetComponent<TorcidaMove> ().StartMoving ();
 				waveCount++;
+				if (waveCount == Characters.Count) {
+					waveCount = 0;
+				}
 				timer = 0;
 			}
 		} else {
@@ -69,6 +72,8 @@ public class LineController : MonoBehaviour {
 				}
 			}
 		}
+
+
 
 		
 	}
@@ -83,10 +88,6 @@ public class LineController : MonoBehaviour {
 			}
 		
 		} 
-
-			
-
-
 
 	}
 }
