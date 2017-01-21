@@ -31,7 +31,8 @@ public class TorcidaMove : MonoBehaviour {
 	void Start () {
 		myStartTransform = this.transform.position;
 
-
+		frequency = Random.Range (1,10);
+		amplitude = Random.Range (0.5f,1.5f);
 	}
 	
 	// Update is called once per frame
