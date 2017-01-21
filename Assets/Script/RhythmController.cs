@@ -98,7 +98,7 @@ public class RhythmController : MonoBehaviour {
                 }
             }
         }
-		if (Input.GetKeyDown(KeyCode.DownArrow) && activeLine != 0) {
+		if (Input.GetKeyDown(KeyCode.DownArrow) && activeLine != lineList.Count-1) {
 			activeLine++;
             foreach (var item in lineList)
             {
@@ -112,7 +112,10 @@ public class RhythmController : MonoBehaviour {
                 }
             }
         }
-
+        if(lineList[activeLine].GetComponent<LineController>().isActive == false)
+        {
+            timer.text = lineList[activeLine].GetComponent<LineController>().sequence[lineList[activeLine].GetComponent<LineController>().activeCell].ToString();
+        }
 		targetPosition = waypoints [activeLine].transform.position;
 
 
