@@ -6,24 +6,27 @@ public class TorcidaMove : MonoBehaviour {
 
 	float pingPong;
 
-	[Range(0,10)]
 	public float frequency;
+
+	public float amplitude;
+
+	Transform myStartTransform;
 
 	// Use this for initialization
 	void Start () {
-		
+		myStartTransform = this.transform;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-		pingPong = Mathf.PingPong (Time.time*frequency,2);
+		pingPong = Mathf.PingPong (Time.time*frequency,amplitude);
 
 
 		this.transform.position = new Vector3 (pingPong,this.transform.position.y,this.transform.position.z);
 
 	}
-	public void (){
+	public void ChangeFrequency (float _frequency ){
 
 	}
 }
