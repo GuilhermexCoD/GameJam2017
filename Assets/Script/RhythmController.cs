@@ -6,6 +6,15 @@ using UnityEngine.UI;
 
 public class RhythmController : MonoBehaviour {
 
+	public enum PlayerState
+	{
+		tambor,
+		batuque,
+		pandeiro
+	}
+
+	public Animator anim;
+
 	public Camera mainCamera;
 
 	public static RhythmController singleton;
@@ -54,6 +63,8 @@ public class RhythmController : MonoBehaviour {
 	public bool pressedVerticalAxis;
 	void Awake ()
 	{
+		anim =this.gameObject.GetComponentInChildren<Animator> ();
+
 		targetPosition = this.transform.position;
 
 		for (int i = 0; i < validKeys.Count; i++) {
@@ -168,6 +179,7 @@ public class RhythmController : MonoBehaviour {
 			}
 
 		}
+		//pause
 
 		if (Input.GetAxis("Vertical")> 0.5f && !pressedVerticalAxis && activeLine != 0) {
 			foreach (var item in lineList) {
@@ -210,7 +222,7 @@ public class RhythmController : MonoBehaviour {
 		targetPosition = waypoints [activeLine].transform.position;
 
 
-
+		anim.SetInteger ("Situate", activeLine);
 			
 		activeLineText.text = " 1 "+lineList[0].GetComponent<LineController>().isActive.ToString();
 		activeLineText1.text = " 2 "+lineList[1].GetComponent<LineController>().isActive.ToString();
@@ -221,6 +233,21 @@ public class RhythmController : MonoBehaviour {
 
 		this.transform.position =targetPosition;
 
+
+	}
+
+	void Update(){
+
+		if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.JoystickButton5)) {
+			print ("Pause");
+			if (!SceneLoader.singleton.pausedGame) {
+				SceneLoader.singleton.PauseGame ();
+			} else {
+				SceneLoader.singleton.ResumeGame ();
+				SceneLoader.singleton.pausedGame = false;
+			}
+
+		}
 
 	}
 	public int ConvertKey2Int(KeyCode key){

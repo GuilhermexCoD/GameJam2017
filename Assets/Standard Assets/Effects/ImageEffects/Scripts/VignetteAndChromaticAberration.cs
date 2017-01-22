@@ -107,6 +107,8 @@ namespace UnityStandardAssets.ImageEffects
             else source.wrapMode = TextureWrapMode.Clamp;
             Graphics.Blit (doPrepass ? color : source, destination, m_ChromAberrationMaterial, mode == AberrationMode.Advanced ? 2 : 1);
 
+			m_ChromAberrationMaterial.color = Color.white;
+
             RenderTexture.ReleaseTemporary (color);
             RenderTexture.ReleaseTemporary (color2A);
         }

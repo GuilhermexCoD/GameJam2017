@@ -49,7 +49,8 @@ Shader "Hidden/Vignetting" {
 		float mask = 1.0 - coordDot * _Intensity; 
 		
 		half4 colorBlur = tex2D (_VignetteTex, UnityStereoScreenSpaceUVAdjust(i.uv2, _VignetteTex_ST));
-		color = lerp (color, colorBlur, saturate (_Blur * coordDot));
+//		color = lerp (color, colorBlur+ float4(_Intensity,_Intensity,_Intensity,0), saturate (_Blur * coordDot));
+		color = lerp (color,  colorBlur, saturate (_Blur * coordDot));
 		
 		return color * mask;
 	}
