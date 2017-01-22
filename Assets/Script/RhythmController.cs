@@ -13,6 +13,11 @@ public class RhythmController : MonoBehaviour {
 		pandeiro
 	}
 
+	public Image Splash;
+	public Image Splash1;
+
+	public GameObject pauseScreen;
+
 	public Animator anim;
 
 	public Camera mainCamera;
@@ -75,6 +80,7 @@ public class RhythmController : MonoBehaviour {
 	public float TimerReady;
 	void Awake ()
 	{
+		
 		win = false;
 		ReadyToPlay = false;
 		anim =this.gameObject.GetComponentInChildren<Animator> ();
@@ -145,8 +151,10 @@ public class RhythmController : MonoBehaviour {
 //		mainCamera.GetComponent<UnityStandardAssets.ImageEffects.VignetteAndChromaticAberration> ().intensity =Mathf.Abs(y)*(3/2);
 //		print (((timerSine * frequency / 2)/Mathf.PI)-countMovement);
 
-			if ((Mathf.Abs (Mathf.Sin (timerSine * frequency / 2))) > 0.1f) {
+			if ((Mathf.Abs (Mathf.Sin (timerSine * frequency / 2))) > 0.4f) {
 				mainCamera.GetComponent<UnityStandardAssets.ImageEffects.VignetteAndChromaticAberration> ().intensity = Mathf.Clamp (Mathf.Abs (Mathf.Sin (timerSine * frequency / 2)) - 0.6f, 0, 0.2f);
+				Splash.color = new Color(Splash.color.r,Splash.color.g,Splash.color.b, Mathf.Clamp (Mathf.Abs (Mathf.Sin (timerSine * frequency / 2)) - 0.6f, 0, 0.2f));
+				Splash1.color =new Color(Splash1.color.r,Splash1.color.g,Splash1.color.b, Mathf.Clamp (Mathf.Abs (Mathf.Sin (timerSine * frequency / 2)) - 0.6f, 0, 0.2f));
 				action = true;
 			} else {
 				action = false;
@@ -321,6 +329,7 @@ public class RhythmController : MonoBehaviour {
 	}
 
 	public void StartCounter(){
+		pauseScreen = SceneLoader.singleton.pauseMenu;
 		TimerReady += Time.fixedDeltaTime;
 		inicialCounter.text = Mathf.Floor(4-TimerReady).ToString();
 		if (TimerReady >=3) {
