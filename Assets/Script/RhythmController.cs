@@ -59,7 +59,7 @@ public class RhythmController : MonoBehaviour {
 	public List<GameObject> waypoints = new List<GameObject>();
 	public List<GameObject> lineList = new List<GameObject>();
 
-
+	public AudioSource audioS;
 	public bool pressedVerticalAxis;
 	void Awake ()
 	{
@@ -107,6 +107,18 @@ public class RhythmController : MonoBehaviour {
 
 	void FixedUpdate () 
 	{
+		
+		if(Input.GetKeyDown(KeyCode.X)){
+			Time.timeScale =0.5f;
+			audioS.pitch = 0.5f;
+		
+		}
+		if(Input.GetKeyDown(KeyCode.C)){
+			Time.timeScale =1;
+			audioS.pitch = 1;
+
+		}
+
 		timerSine += Time.fixedDeltaTime;
 //		Mathf.Abs(Mathf.Sin(timerSine*frequency/2))/amplitude;
 		countMovement = (int)Mathf.Floor((timerSine * frequency / 2)/Mathf.PI);
@@ -125,7 +137,7 @@ public class RhythmController : MonoBehaviour {
 //		mainCamera.GetComponent<UnityStandardAssets.ImageEffects.VignetteAndChromaticAberration> ().intensity =Mathf.Abs(y)*(3/2);
 //		print (((timerSine * frequency / 2)/Mathf.PI)-countMovement);
 
-		if ((Mathf.Abs (Mathf.Sin (timerSine * frequency / 2))) > 0.5f) {
+		if ((Mathf.Abs (Mathf.Sin (timerSine * frequency / 2))) > 0.1f) {
 			mainCamera.GetComponent<UnityStandardAssets.ImageEffects.VignetteAndChromaticAberration> ().intensity = Mathf.Clamp( Mathf.Abs(Mathf.Sin(timerSine*frequency/2)) - 0.6f,0,0.2f);
 			action = true;
 		} else {
