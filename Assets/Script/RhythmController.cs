@@ -238,7 +238,7 @@ public class RhythmController : MonoBehaviour {
 
 	void Update(){
 
-		if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.JoystickButton5)) {
+		if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.JoystickButton7)) {
 			print ("Pause");
 			if (!SceneLoader.singleton.pausedGame) {
 				SceneLoader.singleton.PauseGame ();
