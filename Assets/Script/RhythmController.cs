@@ -234,6 +234,8 @@ public class RhythmController : MonoBehaviour {
 		this.transform.position =targetPosition;
 
 
+
+
 	}
 
 	void Update(){

@@ -16,18 +16,24 @@ public class LineController : MonoBehaviour
     public bool isActive;
     public List<KeyCode> sequence = new List<KeyCode>();
     public List<GameObject> Characters = new List<GameObject>();
-    float missTimer;
+    float missTimer,winTimer;
     public int activeCell;
-    public float maxMissTime;
+    public float maxMissTime,maxWinTime;
+	float maxMissTimeStart,maxWinTimeStart;
 	public bool pressed;
     bool vibrate;
     float vibrateTime;
 
 	bool offColor;
 
+	float win=1,loss =1;
+	float winLossRation;
+
 
     void Start()
     {
+		maxMissTimeStart = maxMissTime;
+		maxWinTimeStart = maxWinTime;
         vibrate = false;
         vibrateTime = 0;
         activeCell = 0;
@@ -50,6 +56,8 @@ public class LineController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+
+		winLossRation = (float)(win / loss);
 		if (Input.GetKeyDown(KeyCode.JoystickButton3)) {
 			print ("YYYYYYYYYYYYYY");
 		}
@@ -90,8 +98,9 @@ public class LineController : MonoBehaviour
                             activeCell = 0;
 							//nao pode resetar de imediato
 //                            restartLine();
-                            
+							completedLine = true;
                             print("GANHOU CARALHO");
+							win++;
                         }
                         //Acertou, colocar pontos, levantar placa do proximo,etc..
                         print("Acertou");
@@ -101,6 +110,7 @@ public class LineController : MonoBehaviour
                     else
                     {
                         print("Errou");
+						loss++;
 						Characters[activeCell].GetComponent<TorcidaMove>().anim.SetInteger("State",(int)TorcedorState.idle);
 						Characters [activeCell].GetComponent<TorcidaMove> ().boardSprite.color = Color.red;
 						Characters [activeCell].GetComponent<TorcidaMove> ().keySprite.sprite = RhythmController.singleton.feedbackSprite[1];
@@ -114,6 +124,7 @@ public class LineController : MonoBehaviour
 					Characters [activeCell].GetComponent<TorcidaMove> ().keySprite.sprite = RhythmController.singleton.feedbackSprite[1];
 					Characters[activeCell].GetComponent<TorcidaMove>().anim.SetInteger("State",(int)TorcedorState.idle);
                     print("Errou");
+					loss++;
                     Characters [activeCell].GetComponent<TorcidaMove> ().boardSprite.color = Color.red;
                     missedTiming = true;
                     isActive = false;
@@ -127,12 +138,21 @@ public class LineController : MonoBehaviour
 			}
 			offColor = true;
 		}
+
+		if (completedLine) {
+			winTimer += Time.fixedDeltaTime;
+			if (winTimer >=maxWinTime) {
+				maxWinTime = maxWinTimeStart * winLossRation;
+				restartLine ();
+			}
+		}
+
         if(missedTiming)
         {
             missTimer += Time.fixedDeltaTime;
             if(missTimer >= maxMissTime)
             {
-				maxMissTime *= 2;
+				maxMissTime = maxMissTimeStart/ winLossRation;
                 restartLine();
                 print("Reset timer");
             }
@@ -159,6 +179,7 @@ public class LineController : MonoBehaviour
 			isActive = true;
 		}
         activeCell = 0;
+		winTimer = 0;
         missTimer = 0;
         completedLine = false;
         missedTiming = false;
