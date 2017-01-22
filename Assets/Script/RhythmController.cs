@@ -78,6 +78,8 @@ public class RhythmController : MonoBehaviour {
 
 	public bool ReadyToPlay;
 	public float TimerReady;
+
+	public int CountCompleteLine;
 	void Awake ()
 	{
 		
@@ -105,7 +107,7 @@ public class RhythmController : MonoBehaviour {
         {
             singleton = this;
         }
-        DontDestroyOnLoad(this.gameObject);
+   
 
         activeLine = 0;
 		if (waypoints.Count !=0) {
@@ -310,14 +312,18 @@ public class RhythmController : MonoBehaviour {
 
 	}
 	public bool CheckWin(){
+
 		
 		int count = 0;
 		foreach (var item in lineList) {
+			
 			if (item.GetComponent<LineController> ().completedLine) {
 				count++;
+
 			}
 
 		}
+		CountCompleteLine = count;
 		if (count == lineList.Count) {
 			return true;
 		} else {

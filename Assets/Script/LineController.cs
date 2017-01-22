@@ -95,8 +95,9 @@ public class LineController : MonoBehaviour
 					}
 					offColor = false;
 				}
-				if (activeCell < 3 && !completedLine) {
-					if (RhythmController.singleton.audioSStreak3.isPlaying) {
+				if (activeCell < 3 && !completedLine ) {
+					
+					if (RhythmController.singleton.audioSStreak3.isPlaying && RhythmController.singleton.CountCompleteLine ==0) {
 						RhythmController.singleton.audioSStreak3.Stop ();
 					}
 

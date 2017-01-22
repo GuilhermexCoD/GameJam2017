@@ -21,7 +21,7 @@ public class SceneLoader : MonoBehaviour {
 		{
 			singleton = this;
 		}
-		DontDestroyOnLoad(this.gameObject);
+//		DontDestroyOnLoad(this.gameObject);
 	}
 
 	void Update ()
