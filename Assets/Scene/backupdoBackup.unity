@@ -7663,6 +7663,10 @@ MonoBehaviour:
   action: 0
   wave: {fileID: 1046946781714982, guid: f696527063f945f47bd8b9fe6a21daeb, type: 2}
   newWave: {fileID: 0}
+  frequency: 5
+  amplitude: 3
+  timerSine: 0
+  countMovement: 0
   music: 
   musicSize: 50
   activeLine: 0
@@ -19212,7 +19216,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mode: 0
-  intensity: 0.15
+  intensity: 0.27
   chromaticAberration: 0.2
   axialAberration: 0.5
   blur: 0.17
@@ -19482,7 +19486,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1793571321
 RectTransform:
   m_ObjectHideFlags: 0

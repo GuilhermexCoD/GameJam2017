@@ -108,24 +108,36 @@ public class RhythmController : MonoBehaviour {
 		} else {
 			pressButton.image.color  = Color.red;
 		}
-		mainCamera.GetComponent<UnityStandardAssets.ImageEffects.VignetteAndChromaticAberration> ().intensity = Mathf.Abs(Mathf.Sin(timerSine*frequency/2))/amplitude;
-		if (Mathf.Abs(Mathf.Sin(timerSine*frequency/2))/amplitude ==Mathf.Abs(Mathf.Sin(Mathf.PI/2))){
+		float y = Mathf.Sin (Mathf.PI/2);
 
-			print ("pico");
-			
+//		mainCamera.GetComponent<UnityStandardAssets.ImageEffects.VignetteAndChromaticAberration> ().intensity =Mathf.Abs(y)*(3/2);
+//		print (((timerSine * frequency / 2)/Mathf.PI)-countMovement);
+
+		if ((Mathf.Abs (Mathf.Sin (timerSine * frequency / 2))) > 0.5f) {
+			mainCamera.GetComponent<UnityStandardAssets.ImageEffects.VignetteAndChromaticAberration> ().intensity = Mathf.Clamp( Mathf.Abs(Mathf.Sin(timerSine*frequency/2)) - 0.6f,0,0.2f);
+			action = true;
+		} else {
+			action = false;
+			lineList [activeLine].GetComponent<LineController> ().pressed = false;
 		}
+//
+//		if (((timerSine * frequency / 2)/Mathf.PI/2)-0.5f >){
+//
+//			print ("pico");
+//			
+//		}
 //		Debug.Log (action);
 //		if (Time.fixedTime >= spaceTime)					//Marca o inicio do espaco pra acao do jogador...
 //		{
-//			action = true;
+////			action = true;
 //
 //		}
-		
+//		
 //		if (Time.fixedTime >= timing) 						//Tempo final do hitmo pra chamada de funcoes...
 //		{
 //			timing = Time.fixedTime + timeSet;
 //			spaceTime = Time.fixedTime + prevBeat;
-//			action = false;
+////			action = false;
 //			lineList [activeLine].GetComponent<LineController> ().pressed = false;
 //			newWave = Instantiate (wave) as GameObject;
 //			Destroy (newWave, 0.50f);
