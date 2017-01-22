@@ -110,6 +110,7 @@ public class LineController : MonoBehaviour
 						Characters [activeCell].GetComponent<TorcidaMove> ().anim.SetInteger ("State", (int)TorcedorState.idle);
 						Characters [activeCell].GetComponent<TorcidaMove> ().boardSprite.color = Color.red;
 						Characters [activeCell].GetComponent<TorcidaMove> ().keySprite.sprite = RhythmController.singleton.feedbackSprite [1];
+						Miss ();
 						missedTiming = true;
 						//bloquear linha por tempo, resetar animacoes, etc...
 						isActive = false;
@@ -118,6 +119,7 @@ public class LineController : MonoBehaviour
 					Characters [activeCell].GetComponent<TorcidaMove> ().keySprite.sprite = RhythmController.singleton.feedbackSprite [1];
 					Characters [activeCell].GetComponent<TorcidaMove> ().anim.SetInteger ("State", (int)TorcedorState.idle);
 					print ("Errou");
+					Miss ();
 					loss++;
 					Characters [activeCell].GetComponent<TorcidaMove> ().boardSprite.color = Color.red;
 					missedTiming = true;
@@ -126,7 +128,7 @@ public class LineController : MonoBehaviour
 				}
 			}
 		} else {
-			if (!completedLine) {
+			if (!completedLine && ! missedTiming) {
 				decayTimer += Time.fixedDeltaTime;
 				if (decayTimer >= (maxDecayTime/2)) {
 					if (activeCell!=0) {
@@ -144,6 +146,7 @@ public class LineController : MonoBehaviour
 
 		}
 		if (!offColor && !isActive) {
+			
 			foreach (var item in Characters) {
 				item.GetComponent<CharacterCreation> ().TurnOffColors ();
 			}
@@ -204,6 +207,15 @@ public class LineController : MonoBehaviour
 			Characters[i].GetComponent<TorcidaMove>().anim.SetInteger("State",(int)TorcedorState.idle);
         }
     }
+	public void Miss(){
+
+		foreach (var item in Characters) {
+			
+			item.GetComponent<TorcidaMove> ().anim.SetInteger ("State", (int)TorcedorState.idle);
+			item.GetComponent<TorcidaMove> ().boardSprite.color = Color.red;
+			item.GetComponent<TorcidaMove> ().keySprite.sprite = RhythmController.singleton.feedbackSprite [1];
+		}
+	}
 
 
 }
