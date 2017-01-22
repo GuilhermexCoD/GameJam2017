@@ -5,9 +5,12 @@ using UnityEngine.UI;
 
 public class RhythmController : MonoBehaviour {
 
+	public Camera mainCamera;
+
 	public static RhythmController singleton;
 
-	public GameObject PlayerModel;
+	public List<SpriteRenderer> PlayerModelSkin;
+	public List<Color> skinColors;
 
 	public Text timer;
 	public Text activeLineText;
@@ -40,11 +43,19 @@ public class RhythmController : MonoBehaviour {
 	/// </summary>
 	public List<GameObject> waypoints = new List<GameObject>();
 	public List<GameObject> lineList = new List<GameObject>();
+
+
+	public bool pressedVerticalAxis;
 	void Awake ()
 	{
+		targetPosition = this.transform.position;
 
 		for (int i = 0; i < validKeys.Count; i++) {
 			validKeysInt.Add( ConvertKey2Int (validKeys [i]));
+		}
+		int rnd = Random.Range (0, skinColors.Count-1);
+		foreach (var item in PlayerModelSkin) {
+			item.color = skinColors [rnd];
 		}
 
         lineList[activeLine].GetComponent<LineController>().isActive = true;
@@ -89,12 +100,12 @@ public class RhythmController : MonoBehaviour {
 		} else {
 			pressButton.image.color  = Color.red;
 		}
-
-
+		mainCamera.GetComponent<UnityStandardAssets.ImageEffects.VignetteAndChromaticAberration> ().intensity = Mathf.PingPong(Time.fixedDeltaTime,0.3f);
 //		Debug.Log (action);
 		if (Time.fixedTime >= spaceTime)					//Marca o inicio do espaco pra acao do jogador...
 		{
 			action = true;
+
 		}
 		
 		if (Time.fixedTime >= timing) 						//Tempo final do hitmo pra chamada de funcoes...
@@ -102,32 +113,68 @@ public class RhythmController : MonoBehaviour {
 			timing = Time.fixedTime + timeSet;
 			spaceTime = Time.fixedTime + prevBeat;
 			action = false;
+			lineList [activeLine].GetComponent<LineController> ().pressed = false;
 			newWave = Instantiate (wave) as GameObject;
 			Destroy (newWave, 0.50f);
 		}
 		//comandos setas
-		if (Input.GetKeyDown(KeyCode.UpArrow) && activeLine != 0) {
+		if (Input.GetKeyDown(KeyCode.UpArrow) && activeLine != 0 ) {
 			foreach (var item in lineList) {
 				lineList[activeLine].GetComponent<LineController>().isActive = false;
 			}
+
 			activeLine--;
 
 			if (!lineList[activeLine].GetComponent<LineController>().missedTiming) {
 				lineList[activeLine].GetComponent<LineController>().isActive = true;
 			}
-        }
-		if (Input.GetKeyDown(KeyCode.DownArrow) && activeLine != lineList.Count-1) {
+		}
+		if (Input.GetKeyDown (KeyCode.DownArrow) && activeLine != lineList.Count - 1 ) {
+			foreach (var item in lineList) {
+				lineList [activeLine].GetComponent<LineController> ().isActive = false;
+			}
+
+			activeLine++;
+			
+
+			if (!lineList [activeLine].GetComponent<LineController> ().missedTiming) {
+				lineList [activeLine].GetComponent<LineController> ().isActive = true;
+			}
+
+		}
+
+		if (Input.GetAxis("Vertical")> 0.5f && !pressedVerticalAxis && activeLine != 0) {
 			foreach (var item in lineList) {
 				lineList[activeLine].GetComponent<LineController>().isActive = false;
 			}
 
+			if (!pressedVerticalAxis) {
+				activeLine--;
+			}
+			pressedVerticalAxis = true;
 
-			activeLine++;
 			if (!lineList[activeLine].GetComponent<LineController>().missedTiming) {
 				lineList[activeLine].GetComponent<LineController>().isActive = true;
 			}
+		}
+		if (Input.GetAxis ("Vertical") < -0.5f && !pressedVerticalAxis && activeLine != lineList.Count - 1) {
+			foreach (var item in lineList) {
+				lineList[activeLine].GetComponent<LineController>().isActive = false;
+			}
 
-        }
+			if (!pressedVerticalAxis) {
+				activeLine++;
+			}
+			pressedVerticalAxis = true;
+			if (!lineList[activeLine].GetComponent<LineController>().missedTiming) {
+				lineList[activeLine].GetComponent<LineController>().isActive = true;
+			}
+		}
+
+		if (Input.GetAxis ("Vertical") == 0 ) {
+			pressedVerticalAxis = false;
+		}
+
 		//fim comandos seta
 
         if(lineList[activeLine].GetComponent<LineController>().isActive == false)

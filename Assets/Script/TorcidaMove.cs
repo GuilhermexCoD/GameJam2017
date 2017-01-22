@@ -32,8 +32,12 @@ public class TorcidaMove : MonoBehaviour {
 	public SpriteRenderer boardSprite;
 	public SpriteRenderer keySprite;
 
+	public Animator anim;
+
 	// Use this for initialization
 	void Start () {
+
+		anim = GetComponent<Animator> ();
 //		myStartTransform = this.transform.position+ new Vector3(0,-amplitude,0);
 		myStartTransform = this.transform.position;
 		amplitude = 1;
@@ -100,7 +104,6 @@ public class TorcidaMove : MonoBehaviour {
 				keySprite.sprite = RhythmController.singleton.validKeysSprite[x];
 			}
 		}
-
 
 	}
 		

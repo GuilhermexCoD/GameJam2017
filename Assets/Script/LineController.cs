@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class LineController : MonoBehaviour
 {
+	public enum TorcedorState
+	{
+		idle,
+		standing
+	}
+
 	public int myIndex;
     public bool completedLine;
     public bool missedTiming;
@@ -13,9 +19,9 @@ public class LineController : MonoBehaviour
     float missTimer;
     public int activeCell;
     public float maxMissTime;
+	public bool pressed;
 
-
-
+	bool offColor;
 
 
     void Start()
@@ -31,6 +37,7 @@ public class LineController : MonoBehaviour
             Characters.Add(this.transform.GetChild(i).gameObject);
             sequence.Add(randomizeKey());
 			Characters [i].GetComponent<TorcidaMove> ().ChooseKey (sequence[i]);
+			Characters[i].GetComponent<TorcidaMove>().anim.SetInteger("State",(int)TorcedorState.idle);
         }
 
 
@@ -46,6 +53,13 @@ public class LineController : MonoBehaviour
         //If line is active
         if (isActive)
         {
+			if (offColor) {
+				foreach (var item in Characters) {
+					item.GetComponent<CharacterCreation> ().TurnOnColors ();
+				}
+				offColor = false;
+			}
+
             //Mostrar teclas
             print("Char to press: " + sequence[activeCell]);
             RhythmController.singleton.timer.text = sequence[activeCell].ToString();
@@ -55,8 +69,10 @@ public class LineController : MonoBehaviour
 				if (Input.GetKeyDown(RhythmController.singleton.validKeys[i]) || Input.GetKeyDown(RhythmController.singleton.validKeysJoystick[i])  && (sequence[activeCell] == RhythmController.singleton.validKeys[i]))
                 {
                     print("Apertei certo");
-                    if (RhythmController.singleton.action)
+					if (RhythmController.singleton.action && !pressed)
                     {
+						//levantar
+						Characters[activeCell].GetComponent<TorcidaMove>().anim.SetInteger("State",(int)TorcedorState.standing);
 						Characters [activeCell].GetComponent<TorcidaMove> ().boardSprite.color = Color.green;
                         RhythmController.singleton.timer.text = "Acertou";
                         if (activeCell < sequence.Count-1) activeCell++;
@@ -70,12 +86,13 @@ public class LineController : MonoBehaviour
                         }
                         //Acertou, colocar pontos, levantar placa do proximo,etc..
                         print("Acertou");
-
+						pressed = true;
                         missedTiming = false;
                     }
                     else
                     {
                         print("Errou");
+						Characters[activeCell].GetComponent<TorcidaMove>().anim.SetInteger("State",(int)TorcedorState.idle);
 						Characters [activeCell].GetComponent<TorcidaMove> ().boardSprite.color = Color.red;
                         missedTiming = true;
                         //bloquear linha por tempo, resetar animacoes, etc...
@@ -84,6 +101,7 @@ public class LineController : MonoBehaviour
                 }
 				else if(Input.GetKeyDown(RhythmController.singleton.validKeys[i]) || Input.GetKeyDown(RhythmController.singleton.validKeysJoystick[i]))
                 {
+					Characters[activeCell].GetComponent<TorcidaMove>().anim.SetInteger("State",(int)TorcedorState.idle);
                     print("Errou");
 					Characters [activeCell].GetComponent<TorcidaMove> ().boardSprite.color = Color.red;
                     missedTiming = true;
@@ -91,13 +109,19 @@ public class LineController : MonoBehaviour
                     //bloquear linha por tempo
                 }
             }
-        }
-
+		}
+		if (!offColor && !isActive) {
+			foreach (var item in Characters) {
+				item.GetComponent<CharacterCreation> ().TurnOffColors ();
+			}
+			offColor = true;
+		}
         if(missedTiming)
         {
             missTimer += Time.fixedDeltaTime;
             if(missTimer >= maxMissTime)
             {
+				maxMissTime *= 2;
                 restartLine();
                 print("Reset timer");
             }
@@ -124,6 +148,8 @@ public class LineController : MonoBehaviour
         {
 			Characters [i].GetComponent<TorcidaMove> ().boardSprite.color = Color.white;
             sequence.Add(randomizeKey());
+			Characters [i].GetComponent<TorcidaMove> ().ChooseKey (sequence[i]);
+			Characters[i].GetComponent<TorcidaMove>().anim.SetInteger("State",(int)TorcedorState.idle);
         }
     }
 }
