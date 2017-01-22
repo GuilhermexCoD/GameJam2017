@@ -69,6 +69,7 @@ public class RhythmController : MonoBehaviour {
 	public AudioSource audioS;
 	public AudioSource audioSHitWin;
 	public AudioSource audioSStreak3;
+	public AudioSource audioSWin;
 	public bool pressedVerticalAxis;
 
 
@@ -220,12 +221,16 @@ public class RhythmController : MonoBehaviour {
 			if (CheckWin () && !win) {
 			
 				win = true;
+				audioSWin.Play ();
 			}
 
 
 			if (win) {
 				float ping = Mathf.Sin (Time.fixedTime * 5);
 				mainCamera.transform.RotateAround (mainCamera.transform.position, Vector3.up, ping / 20);
+
+				audioS.Stop ();
+				audioSStreak3.Stop ();
 
 				timerWin += Time.fixedDeltaTime;
 				if (timerWin > Random.Range (0.5f, 1)) {
