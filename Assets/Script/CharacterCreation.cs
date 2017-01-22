@@ -89,7 +89,7 @@ public class CharacterCreation : MonoBehaviour {
 		legLPart.color =legColor - turnDownColor;
 		legRPart.color =legColor - turnDownColor;
 		footLPart.color = SkinColorChar - turnDownColor;
-		footRPart.color -= SkinColorChar - turnDownColor;
+		footRPart.color = SkinColorChar - turnDownColor;
 
 	}
 }

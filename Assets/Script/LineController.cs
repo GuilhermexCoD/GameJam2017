@@ -37,6 +37,7 @@ public class LineController : MonoBehaviour
             Characters.Add(this.transform.GetChild(i).gameObject);
             sequence.Add(randomizeKey());
 			Characters [i].GetComponent<TorcidaMove> ().ChooseKey (sequence[i]);
+            if(Characters[i].GetComponent<TorcidaMove>().anim != null)
 			Characters[i].GetComponent<TorcidaMove>().anim.SetInteger("State",(int)TorcedorState.idle);
         }
 
