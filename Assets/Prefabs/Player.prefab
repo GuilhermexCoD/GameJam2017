@@ -808,6 +808,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09fcd8174805961448c4a7e231fd5aaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  anim: {fileID: 0}
   mainCamera: {fileID: 0}
   PlayerModelSkin:
   - {fileID: 212205048416139632}
@@ -836,7 +837,7 @@ MonoBehaviour:
   musicSize: 50
   activeLine: 0
   validKeys: 61000000730000006400000066000000
-  validKeysJoystick: 4a0100004b0100004c0100004d010000
+  validKeysJoystick: 5e0100005f0100006001000061010000
   validKeysInt: 
   validKeysSprite:
   - {fileID: 21300000, guid: 7ae39dd3dfe5a4c4c97f29baa1e9541d, type: 3}

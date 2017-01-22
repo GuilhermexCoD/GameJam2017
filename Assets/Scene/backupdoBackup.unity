@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657892, g: 0.49641496, b: 0.57481813, a: 1}
+  m_IndirectSpecularColor: {r: 0.4465788, g: 0.49641472, b: 0.57481813, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -91,52 +91,6 @@ NavMeshSettings:
     cellSize: 0.16666667
     accuratePlacement: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &12022590
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 441502, guid: 5702e2a6fea804b45b49b70d8feaf7ae, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: -1.468
-      objectReference: {fileID: 0}
-    - target: {fileID: 441502, guid: 5702e2a6fea804b45b49b70d8feaf7ae, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 2.254
-      objectReference: {fileID: 0}
-    - target: {fileID: 441502, guid: 5702e2a6fea804b45b49b70d8feaf7ae, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: -0.403
-      objectReference: {fileID: 0}
-    - target: {fileID: 441502, guid: 5702e2a6fea804b45b49b70d8feaf7ae, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: -0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 441502, guid: 5702e2a6fea804b45b49b70d8feaf7ae, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 441502, guid: 5702e2a6fea804b45b49b70d8feaf7ae, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 441502, guid: 5702e2a6fea804b45b49b70d8feaf7ae, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 441502, guid: 5702e2a6fea804b45b49b70d8feaf7ae, type: 2}
-      propertyPath: m_RootOrder
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 168542, guid: 5702e2a6fea804b45b49b70d8feaf7ae, type: 2}
-      propertyPath: m_Name
-      value: Confete
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 5702e2a6fea804b45b49b70d8feaf7ae, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1 &37058923
 GameObject:
   m_ObjectHideFlags: 0
@@ -670,6 +624,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01e49a730ddf6b5419005bf82d687c74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  frequency: 0
   myIndex: 0
   completedLine: 0
   missedTiming: 0
@@ -681,6 +636,7 @@ MonoBehaviour:
   maxWinTime: 8
   maxDecayTime: 2
   pressed: 0
+  praticlePrefab: {fileID: 168542, guid: 5702e2a6fea804b45b49b70d8feaf7ae, type: 2}
 --- !u!4 &159055403
 Transform:
   m_ObjectHideFlags: 0
@@ -1409,7 +1365,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 468624, guid: c83a45822d0d3f94991e76a87670125c, type: 2}
       propertyPath: m_RootOrder
-      value: 13
+      value: 14
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c83a45822d0d3f94991e76a87670125c, type: 2}
@@ -2719,7 +2675,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400040, guid: 9a59e4ed5b8768e4e83467859f3b2377, type: 3}
       propertyPath: m_RootOrder
-      value: 14
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 9a59e4ed5b8768e4e83467859f3b2377, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3360,7 +3316,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1267889752
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3716,6 +3672,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01e49a730ddf6b5419005bf82d687c74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  frequency: 0
   myIndex: 0
   completedLine: 0
   missedTiming: 0
@@ -3727,6 +3684,7 @@ MonoBehaviour:
   maxWinTime: 8
   maxDecayTime: 2
   pressed: 0
+  praticlePrefab: {fileID: 168542, guid: 5702e2a6fea804b45b49b70d8feaf7ae, type: 2}
 --- !u!4 &1317541364
 Transform:
   m_ObjectHideFlags: 0
@@ -4304,6 +4262,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01e49a730ddf6b5419005bf82d687c74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  frequency: 0
   myIndex: 0
   completedLine: 0
   missedTiming: 0
@@ -4315,6 +4274,7 @@ MonoBehaviour:
   maxWinTime: 8
   maxDecayTime: 2
   pressed: 0
+  praticlePrefab: {fileID: 168542, guid: 5702e2a6fea804b45b49b70d8feaf7ae, type: 2}
 --- !u!4 &1695913353
 Transform:
   m_ObjectHideFlags: 0
@@ -4765,7 +4725,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400040, guid: 9a59e4ed5b8768e4e83467859f3b2377, type: 3}
       propertyPath: m_RootOrder
-      value: 16
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 9a59e4ed5b8768e4e83467859f3b2377, type: 3}
       propertyPath: m_LocalPosition.z
@@ -5438,7 +5398,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400040, guid: 9a59e4ed5b8768e4e83467859f3b2377, type: 3}
       propertyPath: m_RootOrder
-      value: 15
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: 9a59e4ed5b8768e4e83467859f3b2377, type: 3}
       propertyPath: m_LocalPosition.z

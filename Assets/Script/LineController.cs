@@ -38,6 +38,8 @@ public class LineController : MonoBehaviour
     float testFrequency;
     int countStop;
     bool stopTheHola;
+	public GameObject praticlePrefab;
+
 
     void Start()
     {
@@ -74,12 +76,12 @@ public class LineController : MonoBehaviour
 
     }
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
 
 		winLossRation = (float)(win / loss);
 		if (Input.GetKeyDown(KeyCode.JoystickButton3)) {
-			print ("YYYYYYYYYYYYYY");
+		//	print ("YYYYYYYYYYYYYY");
 		}
 
         //If line is active
@@ -93,17 +95,19 @@ public class LineController : MonoBehaviour
 			}
 
 			//Mostrar teclas
-			print ("Char to press: " + sequence [activeCell]);
+	//		print ("Char to press: " + sequence [activeCell]);
 			RhythmController.singleton.timer.text = sequence [activeCell].ToString ();
 			//For each valid key
 			for (int i = 0; i < RhythmController.singleton.validKeys.Count; i++) {
 				if (Input.GetKeyDown (RhythmController.singleton.validKeys [i]) || Input.GetKeyDown (RhythmController.singleton.validKeysJoystick [i]) && (sequence [activeCell] == RhythmController.singleton.validKeys [i])) {
-					print ("Apertei certo");
+	//				print ("Apertei certo");
 					if (RhythmController.singleton.action && !pressed) {
 						//levantar
 						Characters [activeCell].GetComponent<TorcidaMove> ().anim.SetInteger ("State", (int)TorcedorState.standing);
 						Characters [activeCell].GetComponent<TorcidaMove> ().boardSprite.color = Color.green;
 						Characters [activeCell].GetComponent<TorcidaMove> ().keySprite.sprite = RhythmController.singleton.feedbackSprite [0];
+						GameObject p = (GameObject)Instantiate (praticlePrefab,Characters[activeCell].transform.position +new Vector3(0,1.3f,0),Quaternion.identity);
+
 						RhythmController.singleton.timer.text = "Acertou";
 						vibrate = true;
 						vibrateTime = 0;
@@ -116,21 +120,22 @@ public class LineController : MonoBehaviour
 							//nao pode resetar de imediato
 //                            restartLine();
 							completedLine = true;
-							print ("GANHOU CARALHO");
+						//	print ("GANHOU CARALHO");
 							win++;
                             DoWave(3, 1);
 
 						}
 						//Acertou, colocar pontos, levantar placa do proximo,etc..
-						print ("Acertou");
+			//			print ("Acertou");
 						pressed = true;
 						missedTiming = false;
 					} else {
-						print ("Errou");
+		//				print ("Errou");
 						loss++;
 						Characters [activeCell].GetComponent<TorcidaMove> ().anim.SetInteger ("State", (int)TorcedorState.idle);
 						Characters [activeCell].GetComponent<TorcidaMove> ().boardSprite.color = Color.red;
 						Characters [activeCell].GetComponent<TorcidaMove> ().keySprite.sprite = RhythmController.singleton.feedbackSprite [1];
+						Miss ();
 						missedTiming = true;
 						//bloquear linha por tempo, resetar animacoes, etc...
 						isActive = false;
@@ -138,7 +143,8 @@ public class LineController : MonoBehaviour
 				} else if (Input.GetKeyDown (RhythmController.singleton.validKeys [i]) || Input.GetKeyDown (RhythmController.singleton.validKeysJoystick [i])) {
 					Characters [activeCell].GetComponent<TorcidaMove> ().keySprite.sprite = RhythmController.singleton.feedbackSprite [1];
 					Characters [activeCell].GetComponent<TorcidaMove> ().anim.SetInteger ("State", (int)TorcedorState.idle);
-					print ("Errou");
+		//			print ("Errou");
+					Miss ();
 					loss++;
 					Characters [activeCell].GetComponent<TorcidaMove> ().boardSprite.color = Color.red;
 					missedTiming = true;
@@ -147,7 +153,7 @@ public class LineController : MonoBehaviour
 				}
 			}
 		} else {
-			if (!completedLine) {
+			if (!completedLine && ! missedTiming) {
 				decayTimer += Time.fixedDeltaTime;
 				if (decayTimer >= (maxDecayTime/2)) {
 					if (activeCell!=0) {
@@ -165,6 +171,7 @@ public class LineController : MonoBehaviour
 
 		}
 		if (!offColor && !isActive) {
+			
 			foreach (var item in Characters) {
 				item.GetComponent<CharacterCreation> ().TurnOffColors ();
 			}
@@ -175,6 +182,7 @@ public class LineController : MonoBehaviour
 			winTimer += Time.fixedDeltaTime;
 			if (winTimer >=maxWinTime) {
 				maxWinTime = maxWinTimeStart * winLossRation;
+                StopWave();
 				restartLine ();
 			}
 		}
@@ -186,13 +194,13 @@ public class LineController : MonoBehaviour
             {
 				maxMissTime = maxMissTimeStart/ winLossRation;
                 restartLine();
-                print("Reset timer");
+    //            print("Reset timer");
             }
         }
         
         if (vibrateTime >= 1 && vibrate)
         {
-            print("ENTREI");
+    //        print("ENTREI");
             GamePad.SetVibration(PlayerIndex.One, 0, 0);
             vibrate = false;
         }
@@ -282,6 +290,15 @@ public class LineController : MonoBehaviour
 			Characters[i].GetComponent<TorcidaMove>().anim.SetInteger("State",(int)TorcedorState.idle);
         }
     }
+	public void Miss(){
+
+		foreach (var item in Characters) {
+			
+			item.GetComponent<TorcidaMove> ().anim.SetInteger ("State", (int)TorcedorState.idle);
+			item.GetComponent<TorcidaMove> ().boardSprite.color = Color.red;
+			item.GetComponent<TorcidaMove> ().keySprite.sprite = RhythmController.singleton.feedbackSprite [1];
+		}
+	}
 
     public void DoWave(float _frequency, float _amplitude)
     {
