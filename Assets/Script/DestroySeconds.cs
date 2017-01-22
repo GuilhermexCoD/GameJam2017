@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DestroySeconds : MonoBehaviour {
 	public float delay;
+	public GameObject p;
 	// Use this for initialization
 	void Start () {
 		
@@ -11,7 +12,6 @@ public class DestroySeconds : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
 		Destroy (this.gameObject,delay);
 		
 	}

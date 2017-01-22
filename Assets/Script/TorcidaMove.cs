@@ -46,18 +46,20 @@ public class TorcidaMove : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
+		if (RhythmController.singleton.ReadyToPlay) {
+			
+		
+			timer += Time.fixedDeltaTime;
 
-		timer += Time.fixedDeltaTime;
+			if (!stop) {
+				this.transform.position = new Vector3 (myStartTransform.x, myStartTransform.y + Mathf.Abs (Mathf.Sin (timer * frequency / 2)) / amplitude, myStartTransform.z);
+				countMovement = (int)Mathf.Floor ((timer * frequency / 2) / Mathf.PI);
+			} else {
+				timer = 0;
+				ReturnToStartPos ();
+			}
 
-		if (!stop) {
-			this.transform.position = new Vector3 (myStartTransform.x, myStartTransform.y + Mathf.Abs(Mathf.Sin(timer*frequency/2))/amplitude, myStartTransform.z);
-			countMovement = (int)Mathf.Floor((timer * frequency / 2)/Mathf.PI);
-		} else {
-			timer = 0;
-			ReturnToStartPos ();
 		}
-
-
 
 	}
 	/// <summary>

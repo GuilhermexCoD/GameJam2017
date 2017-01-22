@@ -26,6 +26,8 @@ public class RhythmController : MonoBehaviour {
 	public Text activeLineText;
 	public Text activeLineText1;
 	public Text activeLineText2;
+
+	public Text inicialCounter;
 	public Button pressButton;
 
 	float timing, spaceTime, prevBeat;
@@ -61,9 +63,20 @@ public class RhythmController : MonoBehaviour {
 
 	public AudioSource audioS;
 	public AudioSource audioSHitWin;
+	public AudioSource audioSStreak3;
 	public bool pressedVerticalAxis;
+
+
+	public bool teste;
+	public bool win;
+	public float timerWin;
+
+	public bool ReadyToPlay;
+	public float TimerReady;
 	void Awake ()
 	{
+		win = false;
+		ReadyToPlay = false;
 		anim =this.gameObject.GetComponentInChildren<Animator> ();
 
 		targetPosition = this.transform.position;
@@ -108,43 +121,37 @@ public class RhythmController : MonoBehaviour {
 
 	void FixedUpdate () 
 	{
-		
-		if(Input.GetKeyDown(KeyCode.X)){
-			Time.timeScale =0.5f;
-			audioS.pitch = 0.5f;
-		
-		}
-		if(Input.GetKeyDown(KeyCode.C)){
-			Time.timeScale =1;
-			audioS.pitch = 1;
 
-		}
+		if (ReadyToPlay) {
+			
+		
+	
 
-		timerSine += Time.fixedDeltaTime;
+			timerSine += Time.fixedDeltaTime;
 //		Mathf.Abs(Mathf.Sin(timerSine*frequency/2))/amplitude;
-		countMovement = (int)Mathf.Floor((timerSine * frequency / 2)/Mathf.PI);
+			countMovement = (int)Mathf.Floor ((timerSine * frequency / 2) / Mathf.PI);
 
-		//timer.text = timing.ToString();
+			//timer.text = timing.ToString();
 //		if (action) {
 //			timer.text += " Go";
 //		}
-		if (action) {
-			pressButton.image.color = Color.green;
-		} else {
-			pressButton.image.color  = Color.red;
-		}
-		float y = Mathf.Sin (Mathf.PI/2);
+			if (action) {
+				pressButton.image.color = Color.green;
+			} else {
+				pressButton.image.color = Color.red;
+			}
+			float y = Mathf.Sin (Mathf.PI / 2);
 
 //		mainCamera.GetComponent<UnityStandardAssets.ImageEffects.VignetteAndChromaticAberration> ().intensity =Mathf.Abs(y)*(3/2);
 //		print (((timerSine * frequency / 2)/Mathf.PI)-countMovement);
 
-		if ((Mathf.Abs (Mathf.Sin (timerSine * frequency / 2))) > 0.1f) {
-			mainCamera.GetComponent<UnityStandardAssets.ImageEffects.VignetteAndChromaticAberration> ().intensity = Mathf.Clamp( Mathf.Abs(Mathf.Sin(timerSine*frequency/2)) - 0.6f,0,0.2f);
-			action = true;
-		} else {
-			action = false;
-			lineList [activeLine].GetComponent<LineController> ().pressed = false;
-		}
+			if ((Mathf.Abs (Mathf.Sin (timerSine * frequency / 2))) > 0.1f) {
+				mainCamera.GetComponent<UnityStandardAssets.ImageEffects.VignetteAndChromaticAberration> ().intensity = Mathf.Clamp (Mathf.Abs (Mathf.Sin (timerSine * frequency / 2)) - 0.6f, 0, 0.2f);
+				action = true;
+			} else {
+				action = false;
+				lineList [activeLine].GetComponent<LineController> ().pressed = false;
+			}
 //
 //		if (((timerSine * frequency / 2)/Mathf.PI/2)-0.5f >){
 //
@@ -167,108 +174,159 @@ public class RhythmController : MonoBehaviour {
 //			newWave = Instantiate (wave) as GameObject;
 //			Destroy (newWave, 0.50f);
 //		}
-		//comandos setas
+			//comandos setas
 
 
-		//fim comandos seta
+			//fim comandos seta
 
-        if(lineList[activeLine].GetComponent<LineController>().isActive == false)
-        {
-            timer.text = lineList[activeLine].GetComponent<LineController>().sequence[lineList[activeLine].GetComponent<LineController>().activeCell].ToString();
-        }
-		targetPosition = waypoints [activeLine].transform.position;
+			if (lineList [activeLine].GetComponent<LineController> ().isActive == false) {
+				timer.text = lineList [activeLine].GetComponent<LineController> ().sequence [lineList [activeLine].GetComponent<LineController> ().activeCell].ToString ();
+			}
+			targetPosition = waypoints [activeLine].transform.position;
 
 
-		anim.SetInteger ("Situate", activeLine);
+			anim.SetInteger ("Situate", activeLine);
 			
-		activeLineText.text = " 1 "+lineList[0].GetComponent<LineController>().isActive.ToString();
-		activeLineText1.text = " 2 "+lineList[1].GetComponent<LineController>().isActive.ToString();
-		activeLineText2.text = " 3 "+lineList[2].GetComponent<LineController>().isActive.ToString();
+			activeLineText.text = " 1 " + lineList [0].GetComponent<LineController> ().isActive.ToString ();
+			activeLineText1.text = " 2 " + lineList [1].GetComponent<LineController> ().isActive.ToString ();
+			activeLineText2.text = " 3 " + lineList [2].GetComponent<LineController> ().isActive.ToString ();
 
 
 //		this.transform.position = Vector3.Lerp (this.transform.position, targetPosition, Time.fixedDeltaTime * 2);
 
-		this.transform.position =targetPosition;
+			this.transform.position = targetPosition;
 
 
 
-
+		} else {
+			StartCounter ();
+		}
 	}
 
 	void Update(){
-
-		if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.JoystickButton7)) {
-			print ("Pause");
-			if (!SceneLoader.singleton.pausedGame) {
-				SceneLoader.singleton.PauseGame ();
-			} else {
-				SceneLoader.singleton.ResumeGame ();
-				SceneLoader.singleton.pausedGame = false;
+		if (ReadyToPlay) {
+			
+		
+			if (CheckWin () && !win) {
+			
+				win = true;
 			}
 
-		}
 
-		if (Input.GetKeyDown(KeyCode.UpArrow) && activeLine != 0 ) {
-			foreach (var item in lineList) {
-				lineList[activeLine].GetComponent<LineController>().isActive = false;
+			if (win) {
+				float ping = Mathf.Sin (Time.fixedTime * 5);
+				mainCamera.transform.RotateAround (mainCamera.transform.position, Vector3.up, ping / 20);
+
+				timerWin += Time.fixedDeltaTime;
+				if (timerWin > Random.Range (0.5f, 1)) {
+					for (int i = 0; i < 40; i++) {
+						float x = Random.Range (-7, 2);
+						float y = Random.Range (-4, 4);
+						float z = Random.Range (-4, 4);
+						GameObject p = (GameObject)Instantiate (lineList [0].GetComponent<LineController> ().praticlePrefab, this.transform.position + new Vector3 (x, y, z), Quaternion.identity);
+					}
+					timerWin = 0;
+				}
+		
 			}
 
-			activeLine--;
+			if (Input.GetKeyDown (KeyCode.Escape) || Input.GetKeyDown (KeyCode.JoystickButton7)) {
+				print ("Pause");
+				if (!SceneLoader.singleton.pausedGame) {
+					SceneLoader.singleton.PauseGame ();
+				} else {
+					SceneLoader.singleton.ResumeGame ();
+					SceneLoader.singleton.pausedGame = false;
+				}
 
-			if (!lineList[activeLine].GetComponent<LineController>().missedTiming) {
-				lineList[activeLine].GetComponent<LineController>().isActive = true;
-			}
-		}
-		if (Input.GetKeyDown (KeyCode.DownArrow) && activeLine != lineList.Count - 1 ) {
-			foreach (var item in lineList) {
-				lineList [activeLine].GetComponent<LineController> ().isActive = false;
-			}
-
-			activeLine++;
-
-
-			if (!lineList [activeLine].GetComponent<LineController> ().missedTiming) {
-				lineList [activeLine].GetComponent<LineController> ().isActive = true;
 			}
 
-		}
-		//pause
+			if (Input.GetKeyDown (KeyCode.UpArrow) && activeLine != 0) {
+				foreach (var item in lineList) {
+					lineList [activeLine].GetComponent<LineController> ().isActive = false;
+				}
 
-		if (Input.GetAxis("Vertical")> 0.5f && !pressedVerticalAxis && activeLine != 0) {
-			foreach (var item in lineList) {
-				lineList[activeLine].GetComponent<LineController>().isActive = false;
-			}
-
-			if (!pressedVerticalAxis) {
 				activeLine--;
-			}
-			pressedVerticalAxis = true;
 
-			if (!lineList[activeLine].GetComponent<LineController>().missedTiming) {
-				lineList[activeLine].GetComponent<LineController>().isActive = true;
+				if (!lineList [activeLine].GetComponent<LineController> ().missedTiming) {
+					lineList [activeLine].GetComponent<LineController> ().isActive = true;
+				}
 			}
-		}
-		if (Input.GetAxis ("Vertical") < -0.5f && !pressedVerticalAxis && activeLine != lineList.Count - 1) {
-			foreach (var item in lineList) {
-				lineList[activeLine].GetComponent<LineController>().isActive = false;
-			}
+			if (Input.GetKeyDown (KeyCode.DownArrow) && activeLine != lineList.Count - 1) {
+				foreach (var item in lineList) {
+					lineList [activeLine].GetComponent<LineController> ().isActive = false;
+				}
 
-			if (!pressedVerticalAxis) {
 				activeLine++;
-			}
-			pressedVerticalAxis = true;
-			if (!lineList[activeLine].GetComponent<LineController>().missedTiming) {
-				lineList[activeLine].GetComponent<LineController>().isActive = true;
-			}
-		}
 
-		if (Input.GetAxis ("Vertical") == 0 ) {
-			pressedVerticalAxis = false;
-		}
 
+				if (!lineList [activeLine].GetComponent<LineController> ().missedTiming) {
+					lineList [activeLine].GetComponent<LineController> ().isActive = true;
+				}
+
+			}
+			//pause
+
+			if (Input.GetAxis ("Vertical") > 0.5f && !pressedVerticalAxis && activeLine != 0) {
+				foreach (var item in lineList) {
+					lineList [activeLine].GetComponent<LineController> ().isActive = false;
+				}
+
+				if (!pressedVerticalAxis) {
+					activeLine--;
+				}
+				pressedVerticalAxis = true;
+
+				if (!lineList [activeLine].GetComponent<LineController> ().missedTiming) {
+					lineList [activeLine].GetComponent<LineController> ().isActive = true;
+				}
+			}
+			if (Input.GetAxis ("Vertical") < -0.5f && !pressedVerticalAxis && activeLine != lineList.Count - 1) {
+				foreach (var item in lineList) {
+					lineList [activeLine].GetComponent<LineController> ().isActive = false;
+				}
+
+				if (!pressedVerticalAxis) {
+					activeLine++;
+				}
+				pressedVerticalAxis = true;
+				if (!lineList [activeLine].GetComponent<LineController> ().missedTiming) {
+					lineList [activeLine].GetComponent<LineController> ().isActive = true;
+				}
+			}
+
+			if (Input.GetAxis ("Vertical") == 0) {
+				pressedVerticalAxis = false;
+			}
+		} 
+
+	}
+	public bool CheckWin(){
+		
+		int count = 0;
+		foreach (var item in lineList) {
+			if (item.GetComponent<LineController> ().completedLine) {
+				count++;
+			}
+
+		}
+		if (count == lineList.Count) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	public int ConvertKey2Int(KeyCode key){
 		return (int)key;
+	}
+
+	public void StartCounter(){
+		TimerReady += Time.fixedDeltaTime;
+		inicialCounter.text = Mathf.Floor(4-TimerReady).ToString();
+		if (TimerReady >=3) {
+			inicialCounter.gameObject.SetActive (false);
+			ReadyToPlay = true;
+		}
 	}
 
 

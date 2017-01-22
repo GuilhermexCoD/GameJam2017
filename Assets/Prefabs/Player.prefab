@@ -586,8 +586,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1561325741147082}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0.09729968, z: -0, w: 0.9952551}
+  m_LocalPosition: {x: 0.02526912, y: -0.000000027093021, z: 0.016717682}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4957327488701350}
@@ -603,7 +603,7 @@ Transform:
   - {fileID: 4471687864354500}
   m_Father: {fileID: 4788968928344672}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -11.167001, z: 0}
 --- !u!4 &4643158337431090
 Transform:
   m_ObjectHideFlags: 1
@@ -823,13 +823,14 @@ MonoBehaviour:
   activeLineText: {fileID: 0}
   activeLineText1: {fileID: 0}
   activeLineText2: {fileID: 0}
+  inicialCounter: {fileID: 0}
   pressButton: {fileID: 0}
   timeSet: 2
   actionTime: 1
   action: 0
   wave: {fileID: 1046946781714982, guid: f696527063f945f47bd8b9fe6a21daeb, type: 2}
   newWave: {fileID: 0}
-  frequency: 5
+  frequency: 7.37
   amplitude: 3
   timerSine: 0
   countMovement: 0
@@ -857,7 +858,15 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  audioS: {fileID: 0}
+  audioSHitWin: {fileID: 0}
+  audioSStreak3: {fileID: 0}
   pressedVerticalAxis: 0
+  teste: 0
+  win: 0
+  timerWin: 0
+  ReadyToPlay: 0
+  TimerReady: 0
 --- !u!212 &212032635090177926
 SpriteRenderer:
   m_ObjectHideFlags: 1
