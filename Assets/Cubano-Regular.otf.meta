@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: d8bb3aaa6f08639468f686a29c1beb5e
+timeCreated: 1485105492
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Cubano
+  fontNames:
+  - Cubano
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
