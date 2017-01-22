@@ -25,6 +25,10 @@ public class RhythmController : MonoBehaviour {
 	public GameObject wave;
 	public GameObject newWave;
 
+	public float frequency, amplitude;
+	public float timerSine;
+	public int countMovement;
+
 	public List<int> music = new List<int> ();
 	public int musicSize;
 	public int activeLine;
@@ -90,33 +94,41 @@ public class RhythmController : MonoBehaviour {
 
 	void FixedUpdate () 
 	{
+		timerSine += Time.fixedDeltaTime;
+//		Mathf.Abs(Mathf.Sin(timerSine*frequency/2))/amplitude;
+		countMovement = (int)Mathf.Floor((timerSine * frequency / 2)/Mathf.PI);
 
 		//timer.text = timing.ToString();
-		if (action) {
-			timer.text += " Go";
-		}
+//		if (action) {
+//			timer.text += " Go";
+//		}
 		if (action) {
 			pressButton.image.color = Color.green;
 		} else {
 			pressButton.image.color  = Color.red;
 		}
-		mainCamera.GetComponent<UnityStandardAssets.ImageEffects.VignetteAndChromaticAberration> ().intensity = Mathf.PingPong(Time.fixedDeltaTime,0.3f);
-//		Debug.Log (action);
-		if (Time.fixedTime >= spaceTime)					//Marca o inicio do espaco pra acao do jogador...
-		{
-			action = true;
+		mainCamera.GetComponent<UnityStandardAssets.ImageEffects.VignetteAndChromaticAberration> ().intensity = Mathf.Abs(Mathf.Sin(timerSine*frequency/2))/amplitude;
+		if (Mathf.Abs(Mathf.Sin(timerSine*frequency/2))/amplitude ==Mathf.Abs(Mathf.Sin(Mathf.PI/2))){
 
+			print ("pico");
+			
 		}
+//		Debug.Log (action);
+//		if (Time.fixedTime >= spaceTime)					//Marca o inicio do espaco pra acao do jogador...
+//		{
+//			action = true;
+//
+//		}
 		
-		if (Time.fixedTime >= timing) 						//Tempo final do hitmo pra chamada de funcoes...
-		{
-			timing = Time.fixedTime + timeSet;
-			spaceTime = Time.fixedTime + prevBeat;
-			action = false;
-			lineList [activeLine].GetComponent<LineController> ().pressed = false;
-			newWave = Instantiate (wave) as GameObject;
-			Destroy (newWave, 0.50f);
-		}
+//		if (Time.fixedTime >= timing) 						//Tempo final do hitmo pra chamada de funcoes...
+//		{
+//			timing = Time.fixedTime + timeSet;
+//			spaceTime = Time.fixedTime + prevBeat;
+//			action = false;
+//			lineList [activeLine].GetComponent<LineController> ().pressed = false;
+//			newWave = Instantiate (wave) as GameObject;
+//			Destroy (newWave, 0.50f);
+//		}
 		//comandos setas
 		if (Input.GetKeyDown(KeyCode.UpArrow) && activeLine != 0 ) {
 			foreach (var item in lineList) {

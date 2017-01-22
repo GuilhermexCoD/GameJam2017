@@ -19212,10 +19212,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mode: 0
-  intensity: 0.1
+  intensity: 0.15
   chromaticAberration: 0.2
   axialAberration: 0.5
-  blur: 0
+  blur: 0.17
   blurSpread: 0.75
   luminanceDependency: 0.25
   blurDistance: 2.5
