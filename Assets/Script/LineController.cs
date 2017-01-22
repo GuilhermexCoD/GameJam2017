@@ -107,6 +107,7 @@ public class LineController : MonoBehaviour
 						Characters [activeCell].GetComponent<TorcidaMove> ().boardSprite.color = Color.green;
 						Characters [activeCell].GetComponent<TorcidaMove> ().keySprite.sprite = RhythmController.singleton.feedbackSprite [0];
 						GameObject p = (GameObject)Instantiate (praticlePrefab,Characters[activeCell].transform.position +new Vector3(0,1.3f,0),Quaternion.identity);
+						RhythmController.singleton.audioSHitWin.Play ();
 
 						RhythmController.singleton.timer.text = "Acertou";
 						vibrate = true;

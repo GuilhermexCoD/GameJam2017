@@ -760,6 +760,16 @@ Prefab:
       propertyPath: frequency
       value: 7.37
       objectReference: {fileID: 0}
+    - target: {fileID: 114744004187507318, guid: 651f447d6bfa5bb428b4f5560f2c22ee,
+        type: 2}
+      propertyPath: audioSHitWin
+      value: 
+      objectReference: {fileID: 1387801798}
+    - target: {fileID: 114744004187507318, guid: 651f447d6bfa5bb428b4f5560f2c22ee,
+        type: 2}
+      propertyPath: audioS
+      value: 
+      objectReference: {fileID: 1664514147}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 651f447d6bfa5bb428b4f5560f2c22ee, type: 2}
   m_IsPrefabParent: 0
