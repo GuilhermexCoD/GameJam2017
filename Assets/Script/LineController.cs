@@ -16,10 +16,10 @@ public class LineController : MonoBehaviour
     public bool isActive;
     public List<KeyCode> sequence = new List<KeyCode>();
     public List<GameObject> Characters = new List<GameObject>();
-    float missTimer,winTimer;
+    float missTimer,winTimer,decayTimer;
     public int activeCell;
-    public float maxMissTime,maxWinTime;
-	float maxMissTimeStart,maxWinTimeStart;
+    public float maxMissTime,maxWinTime,maxDecayTime;
+	float maxMissTimeStart,maxWinTimeStart,maxDecayTimeStart;
 	public bool pressed;
     bool vibrate;
     float vibrateTime;
@@ -34,6 +34,7 @@ public class LineController : MonoBehaviour
     {
 		maxMissTimeStart = maxMissTime;
 		maxWinTimeStart = maxWinTime;
+		maxDecayTimeStart = maxDecayTime;
         vibrate = false;
         vibrateTime = 0;
         activeCell = 0;
@@ -63,8 +64,8 @@ public class LineController : MonoBehaviour
 		}
 
         //If line is active
-        if (isActive)
-        {
+		if (isActive) {
+			decayTimer = 0;
 			if (offColor) {
 				foreach (var item in Characters) {
 					item.GetComponent<CharacterCreation> ().TurnOnColors ();
@@ -72,66 +73,76 @@ public class LineController : MonoBehaviour
 				offColor = false;
 			}
 
-            //Mostrar teclas
-            print("Char to press: " + sequence[activeCell]);
-            RhythmController.singleton.timer.text = sequence[activeCell].ToString();
-            //For each valid key
-            for (int i = 0; i<RhythmController.singleton.validKeys.Count; i++)
-            {
-				if (Input.GetKeyDown(RhythmController.singleton.validKeys[i]) || Input.GetKeyDown(RhythmController.singleton.validKeysJoystick[i])  && (sequence[activeCell] == RhythmController.singleton.validKeys[i]))
-                {
-                    print("Apertei certo");
-					if (RhythmController.singleton.action && !pressed)
-                    {
+			//Mostrar teclas
+			print ("Char to press: " + sequence [activeCell]);
+			RhythmController.singleton.timer.text = sequence [activeCell].ToString ();
+			//For each valid key
+			for (int i = 0; i < RhythmController.singleton.validKeys.Count; i++) {
+				if (Input.GetKeyDown (RhythmController.singleton.validKeys [i]) || Input.GetKeyDown (RhythmController.singleton.validKeysJoystick [i]) && (sequence [activeCell] == RhythmController.singleton.validKeys [i])) {
+					print ("Apertei certo");
+					if (RhythmController.singleton.action && !pressed) {
 						//levantar
-						Characters[activeCell].GetComponent<TorcidaMove>().anim.SetInteger("State",(int)TorcedorState.standing);
+						Characters [activeCell].GetComponent<TorcidaMove> ().anim.SetInteger ("State", (int)TorcedorState.standing);
 						Characters [activeCell].GetComponent<TorcidaMove> ().boardSprite.color = Color.green;
-						Characters [activeCell].GetComponent<TorcidaMove> ().keySprite.sprite = RhythmController.singleton.feedbackSprite[0];
-                        RhythmController.singleton.timer.text = "Acertou";
-                        vibrate = true;
-                        vibrateTime = 0;
-                        GamePad.SetVibration(PlayerIndex.One, 1, 1);
+						Characters [activeCell].GetComponent<TorcidaMove> ().keySprite.sprite = RhythmController.singleton.feedbackSprite [0];
+						RhythmController.singleton.timer.text = "Acertou";
+						vibrate = true;
+						vibrateTime = 0;
+						GamePad.SetVibration (PlayerIndex.One, 1, 1);
 
-                        if (activeCell < sequence.Count-1) activeCell++;
-                        else
-                        {
-                            activeCell = 0;
+						if (activeCell < sequence.Count - 1)
+							activeCell++;
+						else {
+							activeCell = 0;
 							//nao pode resetar de imediato
 //                            restartLine();
 							completedLine = true;
-                            print("GANHOU CARALHO");
+							print ("GANHOU CARALHO");
 							win++;
-                        }
-                        //Acertou, colocar pontos, levantar placa do proximo,etc..
-                        print("Acertou");
+						}
+						//Acertou, colocar pontos, levantar placa do proximo,etc..
+						print ("Acertou");
 						pressed = true;
-                        missedTiming = false;
-                    }
-                    else
-                    {
-                        print("Errou");
+						missedTiming = false;
+					} else {
+						print ("Errou");
 						loss++;
-						Characters[activeCell].GetComponent<TorcidaMove>().anim.SetInteger("State",(int)TorcedorState.idle);
+						Characters [activeCell].GetComponent<TorcidaMove> ().anim.SetInteger ("State", (int)TorcedorState.idle);
 						Characters [activeCell].GetComponent<TorcidaMove> ().boardSprite.color = Color.red;
-						Characters [activeCell].GetComponent<TorcidaMove> ().keySprite.sprite = RhythmController.singleton.feedbackSprite[1];
-                        missedTiming = true;
-                        //bloquear linha por tempo, resetar animacoes, etc...
-                        isActive = false;
-                    }
-                }
-				else if(Input.GetKeyDown(RhythmController.singleton.validKeys[i]) || Input.GetKeyDown(RhythmController.singleton.validKeysJoystick[i]))
-                {
-					Characters [activeCell].GetComponent<TorcidaMove> ().keySprite.sprite = RhythmController.singleton.feedbackSprite[1];
-					Characters[activeCell].GetComponent<TorcidaMove>().anim.SetInteger("State",(int)TorcedorState.idle);
-                    print("Errou");
+						Characters [activeCell].GetComponent<TorcidaMove> ().keySprite.sprite = RhythmController.singleton.feedbackSprite [1];
+						missedTiming = true;
+						//bloquear linha por tempo, resetar animacoes, etc...
+						isActive = false;
+					}
+				} else if (Input.GetKeyDown (RhythmController.singleton.validKeys [i]) || Input.GetKeyDown (RhythmController.singleton.validKeysJoystick [i])) {
+					Characters [activeCell].GetComponent<TorcidaMove> ().keySprite.sprite = RhythmController.singleton.feedbackSprite [1];
+					Characters [activeCell].GetComponent<TorcidaMove> ().anim.SetInteger ("State", (int)TorcedorState.idle);
+					print ("Errou");
 					loss++;
-                    Characters [activeCell].GetComponent<TorcidaMove> ().boardSprite.color = Color.red;
-                    missedTiming = true;
-                    isActive = false;
-                    //bloquear linha por tempo
-                }
-            }
-        }
+					Characters [activeCell].GetComponent<TorcidaMove> ().boardSprite.color = Color.red;
+					missedTiming = true;
+					isActive = false;
+					//bloquear linha por tempo
+				}
+			}
+		} else {
+			if (!completedLine) {
+				decayTimer += Time.fixedDeltaTime;
+				if (decayTimer >= (maxDecayTime/2)) {
+					if (activeCell!=0) {
+						activeCell--;
+					}
+					maxDecayTime = maxDecayTimeStart * winLossRation;
+					Characters [activeCell].GetComponent<TorcidaMove> ().anim.SetInteger ("State", (int)TorcedorState.idle);
+					Characters [activeCell].GetComponent<TorcidaMove> ().boardSprite.color = Color.white;
+					Characters [activeCell].GetComponent<TorcidaMove> ().ChooseKey (sequence[activeCell]);
+
+
+					decayTimer = 0;
+				}
+			}
+
+		}
 		if (!offColor && !isActive) {
 			foreach (var item in Characters) {
 				item.GetComponent<CharacterCreation> ().TurnOffColors ();
@@ -178,6 +189,7 @@ public class LineController : MonoBehaviour
 		if (RhythmController.singleton.activeLine == myIndex) {
 			isActive = true;
 		}
+		decayTimer = 0;
         activeCell = 0;
 		winTimer = 0;
         missTimer = 0;
@@ -192,4 +204,6 @@ public class LineController : MonoBehaviour
 			Characters[i].GetComponent<TorcidaMove>().anim.SetInteger("State",(int)TorcedorState.idle);
         }
     }
+
+
 }

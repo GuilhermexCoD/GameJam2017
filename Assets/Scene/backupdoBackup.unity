@@ -633,6 +633,7 @@ MonoBehaviour:
   activeCell: 0
   maxMissTime: 3
   maxWinTime: 8
+  maxDecayTime: 2
   pressed: 0
 --- !u!4 &159055403
 Transform:
@@ -3636,6 +3637,7 @@ MonoBehaviour:
   activeCell: 0
   maxMissTime: 3
   maxWinTime: 8
+  maxDecayTime: 2
   pressed: 0
 --- !u!4 &1317541364
 Transform:
@@ -4223,6 +4225,7 @@ MonoBehaviour:
   activeCell: 0
   maxMissTime: 3
   maxWinTime: 8
+  maxDecayTime: 2
   pressed: 0
 --- !u!4 &1695913353
 Transform:
@@ -4414,7 +4417,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1778261985}
   m_LocalRotation: {x: -0.011754646, y: -0.9882138, z: 0.103865325, w: -0.1118365}
-  m_LocalPosition: {x: -5.17, y: 1.66, z: 0}
+  m_LocalPosition: {x: -3.91, y: 0.28, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 343898403}
@@ -4461,7 +4464,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5.09
+  orthographic size: 3.83
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
