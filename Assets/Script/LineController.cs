@@ -122,9 +122,9 @@ public class LineController : MonoBehaviour
 							completedLine = true;
 						//	print ("GANHOU CARALHO");
 							win++;
-                            DoWave(3, 1);
+                            DoWave(10f, 2f);
 
-						}
+                        }
 						//Acertou, colocar pontos, levantar placa do proximo,etc..
 			//			print ("Acertou");
 						pressed = true;
@@ -208,7 +208,7 @@ public class LineController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.C))
         {
-            DoWave(3, 1);
+            DoWave(10f, 2f);
         }
 
         if (Input.GetKeyDown(KeyCode.V))
