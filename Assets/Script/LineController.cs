@@ -206,27 +206,6 @@ public class LineController : MonoBehaviour
         }
         vibrateTime += Time.fixedDeltaTime;
 
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            DoWave(10f, 2f);
-        }
-
-        if (Input.GetKeyDown(KeyCode.V))
-        {
-            ChangeWave(10f, 1f);
-        }
-
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            testFrequency += 0.5f;
-            testAmplitude += 0.2f;
-            ChangeWave(testFrequency, testAmplitude);
-        }
-
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            StopWave();
-        }
 
         if (everyoneStopped && !stopTheHola)
         {
