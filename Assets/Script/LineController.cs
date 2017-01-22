@@ -10,29 +10,48 @@ public class LineController : MonoBehaviour
 		standing
 	}
 
-	public int myIndex;
+   public float frequency;
+    float amplitude;
+    public int myIndex;
     public bool completedLine;
     public bool missedTiming;
     public bool isActive;
     public List<KeyCode> sequence = new List<KeyCode>();
     public List<GameObject> Characters = new List<GameObject>();
-    float missTimer,winTimer,decayTimer;
+    float missTimer,winTimer,decayTimer, holaTimer;
     public int activeCell;
     public float maxMissTime,maxWinTime,maxDecayTime;
 	float maxMissTimeStart,maxWinTimeStart,maxDecayTimeStart;
 	public bool pressed;
     bool vibrate;
     float vibrateTime;
-
+    float waveDelay;
 	bool offColor;
 
 	float win=1,loss =1;
 	float winLossRation;
+    bool everyoneStopped;
+    int waveCount;
 
+    float testAmplitude;
+
+    float testFrequency;
+    int countStop;
+    bool stopTheHola;
 
     void Start()
     {
-		maxMissTimeStart = maxMissTime;
+        stopTheHola = true;
+        countStop = 0;
+        testAmplitude = 1f;
+        testFrequency = 3f;
+        waveDelay = 0.1f;
+        waveCount = 0;
+        holaTimer = 0;
+        everyoneStopped = false;
+        frequency = 1;
+        amplitude = 1;
+        maxMissTimeStart = maxMissTime;
 		maxWinTimeStart = maxWinTime;
 		maxDecayTimeStart = maxDecayTime;
         vibrate = false;
@@ -99,6 +118,8 @@ public class LineController : MonoBehaviour
 							completedLine = true;
 							print ("GANHOU CARALHO");
 							win++;
+                            DoWave(3, 1);
+
 						}
 						//Acertou, colocar pontos, levantar placa do proximo,etc..
 						print ("Acertou");
@@ -176,6 +197,63 @@ public class LineController : MonoBehaviour
             vibrate = false;
         }
         vibrateTime += Time.fixedDeltaTime;
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            DoWave(3, 1);
+        }
+
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            ChangeWave(10f, 1f);
+        }
+
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            testFrequency += 0.5f;
+            testAmplitude += 0.2f;
+            ChangeWave(testFrequency, testAmplitude);
+        }
+
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            StopWave();
+        }
+
+        if (everyoneStopped && !stopTheHola)
+        {
+            holaTimer += Time.fixedDeltaTime;
+            if (holaTimer >= waveDelay)
+            {
+                Characters[waveCount].GetComponent<TorcidaMove>().ChangeFrequency(frequency);
+                Characters[waveCount].GetComponent<TorcidaMove>().ChangeAmplitude(amplitude);
+                Characters[waveCount].GetComponent<TorcidaMove>().StartMoving();
+                waveCount++;
+                if (waveCount == Characters.Count)
+                {
+                    waveCount = 0;
+                }
+                holaTimer = 0;
+            }
+        }
+        else if (!everyoneStopped)
+        {
+            foreach (var item in Characters)
+            {
+                if (item.GetComponent<TorcidaMove>().notMoving == false)
+                {
+                    countStop = 0;
+                    everyoneStopped = false;
+                    break;
+                }
+                else if (Characters.IndexOf(item) == Characters.Count - 1)
+                {
+                    countStop++;
+                }
+            }
+            if (countStop == Characters.Count) everyoneStopped = true;
+            else everyoneStopped = false;
+        }
     }
 
     public KeyCode randomizeKey()
@@ -205,5 +283,45 @@ public class LineController : MonoBehaviour
         }
     }
 
+    public void DoWave(float _frequency, float _amplitude)
+    {
+        stopTheHola = false;
+        if (!everyoneStopped)
+        {
+            foreach (var item in Characters)
+            {
+                item.GetComponent<TorcidaMove>().StopMoving();
+                frequency = _frequency;
+                amplitude = _amplitude;
+            }
 
+        }
+
+    }
+
+    public void ChangeWave(float _frequency, float _amplitude)
+    {
+        foreach (var item in Characters)
+        {
+            frequency = _frequency;
+            amplitude = _amplitude;
+        }
+    }
+
+    public void StopWave()
+    {
+        stopTheHola = true;
+        foreach (var item in Characters)
+        {
+            //item.GetComponent<TorcidaMove>().ChangeFrequency(0f);
+            item.GetComponent<TorcidaMove>().ReturnToStartPos();
+            item.GetComponent<TorcidaMove>().StopMoving();
+            item.GetComponent<TorcidaMove>().stop = true;
+            item.GetComponent<TorcidaMove>().timer = 0;
+            waveCount = 0;
+            //      item.GetComponent<TorcidaMove>().notMoving = true;
+
+            everyoneStopped = false;
+        }
+    }
 }

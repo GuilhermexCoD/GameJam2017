@@ -26,7 +26,7 @@ public class TorcidaMove : MonoBehaviour {
 
 	Vector3 myStartTransform;
 
-	float timer;
+	public float timer;
 
 	public int countMovement;
 
@@ -84,6 +84,7 @@ public class TorcidaMove : MonoBehaviour {
 
 		if (this.transform.position.y >= myStartTransform.y + 0.1f) {
 			this.transform.position = new Vector3 (this.transform.position.x, lerp, this.transform.position.z);
+            notMoving = false;
 		} else {
 			this.transform.position = myStartTransform;
 			notMoving = true;
