@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 19886120}
   - component: {fileID: 19954124}
   - component: {fileID: 114623794615741706}
+  - component: {fileID: 114019038844259536}
   m_Layer: 0
   m_Name: Serpentina
   m_TagString: Untagged
@@ -2681,6 +2682,18 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 168542}
   m_IsPrefabParent: 1
+--- !u!114 &114019038844259536
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 168542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ed76351ee73c4649a98dca55471f2a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  delay: 3
 --- !u!114 &114623794615741706
 MonoBehaviour:
   m_ObjectHideFlags: 1

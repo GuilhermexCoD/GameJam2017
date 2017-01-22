@@ -155,6 +155,46 @@ public class RhythmController : MonoBehaviour {
 //			Destroy (newWave, 0.50f);
 //		}
 		//comandos setas
+
+
+		//fim comandos seta
+
+        if(lineList[activeLine].GetComponent<LineController>().isActive == false)
+        {
+            timer.text = lineList[activeLine].GetComponent<LineController>().sequence[lineList[activeLine].GetComponent<LineController>().activeCell].ToString();
+        }
+		targetPosition = waypoints [activeLine].transform.position;
+
+
+		anim.SetInteger ("Situate", activeLine);
+			
+		activeLineText.text = " 1 "+lineList[0].GetComponent<LineController>().isActive.ToString();
+		activeLineText1.text = " 2 "+lineList[1].GetComponent<LineController>().isActive.ToString();
+		activeLineText2.text = " 3 "+lineList[2].GetComponent<LineController>().isActive.ToString();
+
+
+//		this.transform.position = Vector3.Lerp (this.transform.position, targetPosition, Time.fixedDeltaTime * 2);
+
+		this.transform.position =targetPosition;
+
+
+
+
+	}
+
+	void Update(){
+
+		if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.JoystickButton7)) {
+			print ("Pause");
+			if (!SceneLoader.singleton.pausedGame) {
+				SceneLoader.singleton.PauseGame ();
+			} else {
+				SceneLoader.singleton.ResumeGame ();
+				SceneLoader.singleton.pausedGame = false;
+			}
+
+		}
+
 		if (Input.GetKeyDown(KeyCode.UpArrow) && activeLine != 0 ) {
 			foreach (var item in lineList) {
 				lineList[activeLine].GetComponent<LineController>().isActive = false;
@@ -172,7 +212,7 @@ public class RhythmController : MonoBehaviour {
 			}
 
 			activeLine++;
-			
+
 
 			if (!lineList [activeLine].GetComponent<LineController> ().missedTiming) {
 				lineList [activeLine].GetComponent<LineController> ().isActive = true;
@@ -211,44 +251,6 @@ public class RhythmController : MonoBehaviour {
 
 		if (Input.GetAxis ("Vertical") == 0 ) {
 			pressedVerticalAxis = false;
-		}
-
-		//fim comandos seta
-
-        if(lineList[activeLine].GetComponent<LineController>().isActive == false)
-        {
-            timer.text = lineList[activeLine].GetComponent<LineController>().sequence[lineList[activeLine].GetComponent<LineController>().activeCell].ToString();
-        }
-		targetPosition = waypoints [activeLine].transform.position;
-
-
-		anim.SetInteger ("Situate", activeLine);
-			
-		activeLineText.text = " 1 "+lineList[0].GetComponent<LineController>().isActive.ToString();
-		activeLineText1.text = " 2 "+lineList[1].GetComponent<LineController>().isActive.ToString();
-		activeLineText2.text = " 3 "+lineList[2].GetComponent<LineController>().isActive.ToString();
-
-
-//		this.transform.position = Vector3.Lerp (this.transform.position, targetPosition, Time.fixedDeltaTime * 2);
-
-		this.transform.position =targetPosition;
-
-
-
-
-	}
-
-	void Update(){
-
-		if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.JoystickButton7)) {
-			print ("Pause");
-			if (!SceneLoader.singleton.pausedGame) {
-				SceneLoader.singleton.PauseGame ();
-			} else {
-				SceneLoader.singleton.ResumeGame ();
-				SceneLoader.singleton.pausedGame = false;
-			}
-
 		}
 
 	}

@@ -29,6 +29,8 @@ public class LineController : MonoBehaviour
 	float win=1,loss =1;
 	float winLossRation;
 
+	public GameObject praticlePrefab;
+
 
     void Start()
     {
@@ -55,7 +57,7 @@ public class LineController : MonoBehaviour
 
     }
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
 
 		winLossRation = (float)(win / loss);
@@ -85,6 +87,8 @@ public class LineController : MonoBehaviour
 						Characters [activeCell].GetComponent<TorcidaMove> ().anim.SetInteger ("State", (int)TorcedorState.standing);
 						Characters [activeCell].GetComponent<TorcidaMove> ().boardSprite.color = Color.green;
 						Characters [activeCell].GetComponent<TorcidaMove> ().keySprite.sprite = RhythmController.singleton.feedbackSprite [0];
+						GameObject p = (GameObject)Instantiate (praticlePrefab,Characters[activeCell].transform.position +new Vector3(0,1.3f,0),Quaternion.identity);
+
 						RhythmController.singleton.timer.text = "Acertou";
 						vibrate = true;
 						vibrateTime = 0;
