@@ -60,6 +60,7 @@ public class RhythmController : MonoBehaviour {
 	public List<GameObject> lineList = new List<GameObject>();
 
 	public AudioSource audioS;
+	public AudioSource audioSHitWin;
 	public bool pressedVerticalAxis;
 	void Awake ()
 	{
