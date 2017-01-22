@@ -37,6 +37,7 @@ public class RhythmController : MonoBehaviour {
 	public List<KeyCode> validKeysJoystick = new List<KeyCode>();
 	public List<int> validKeysInt = new List<int>();
 	public List<Sprite> validKeysSprite = new List<Sprite> ();
+	public List<Sprite> feedbackSprite = new List<Sprite> ();
 	public Vector3 targetPosition;
 
 	/// <summary>

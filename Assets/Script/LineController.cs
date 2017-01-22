@@ -78,6 +78,7 @@ public class LineController : MonoBehaviour
 						//levantar
 						Characters[activeCell].GetComponent<TorcidaMove>().anim.SetInteger("State",(int)TorcedorState.standing);
 						Characters [activeCell].GetComponent<TorcidaMove> ().boardSprite.color = Color.green;
+						Characters [activeCell].GetComponent<TorcidaMove> ().keySprite.sprite = RhythmController.singleton.feedbackSprite[0];
                         RhythmController.singleton.timer.text = "Acertou";
                         vibrate = true;
                         vibrateTime = 0;
@@ -102,6 +103,7 @@ public class LineController : MonoBehaviour
                         print("Errou");
 						Characters[activeCell].GetComponent<TorcidaMove>().anim.SetInteger("State",(int)TorcedorState.idle);
 						Characters [activeCell].GetComponent<TorcidaMove> ().boardSprite.color = Color.red;
+						Characters [activeCell].GetComponent<TorcidaMove> ().keySprite.sprite = RhythmController.singleton.feedbackSprite[1];
                         missedTiming = true;
                         //bloquear linha por tempo, resetar animacoes, etc...
                         isActive = false;
@@ -109,6 +111,7 @@ public class LineController : MonoBehaviour
                 }
 				else if(Input.GetKeyDown(RhythmController.singleton.validKeys[i]) || Input.GetKeyDown(RhythmController.singleton.validKeysJoystick[i]))
                 {
+					Characters [activeCell].GetComponent<TorcidaMove> ().keySprite.sprite = RhythmController.singleton.feedbackSprite[1];
 					Characters[activeCell].GetComponent<TorcidaMove>().anim.SetInteger("State",(int)TorcedorState.idle);
                     print("Errou");
                     Characters [activeCell].GetComponent<TorcidaMove> ().boardSprite.color = Color.red;
