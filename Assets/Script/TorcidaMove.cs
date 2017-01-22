@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class TorcidaMove : MonoBehaviour {
+
 	/// <summary>
 	/// The movement of the character in Y.
 	/// </summary>

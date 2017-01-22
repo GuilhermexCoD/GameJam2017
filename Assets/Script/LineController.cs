@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using XInputDotNetPure;
 public class LineController : MonoBehaviour
 {
 	public enum TorcedorState
@@ -20,13 +20,16 @@ public class LineController : MonoBehaviour
     public int activeCell;
     public float maxMissTime;
 	public bool pressed;
+    bool vibrate;
+    float vibrateTime;
 
 	bool offColor;
 
 
     void Start()
     {
-		
+        vibrate = false;
+        vibrateTime = 0;
         activeCell = 0;
         missTimer = 0;
         completedLine = false;
@@ -76,6 +79,10 @@ public class LineController : MonoBehaviour
 						Characters[activeCell].GetComponent<TorcidaMove>().anim.SetInteger("State",(int)TorcedorState.standing);
 						Characters [activeCell].GetComponent<TorcidaMove> ().boardSprite.color = Color.green;
                         RhythmController.singleton.timer.text = "Acertou";
+                        vibrate = true;
+                        vibrateTime = 0;
+                        GamePad.SetVibration(PlayerIndex.One, 1, 1);
+
                         if (activeCell < sequence.Count-1) activeCell++;
                         else
                         {
@@ -104,13 +111,13 @@ public class LineController : MonoBehaviour
                 {
 					Characters[activeCell].GetComponent<TorcidaMove>().anim.SetInteger("State",(int)TorcedorState.idle);
                     print("Errou");
-					Characters [activeCell].GetComponent<TorcidaMove> ().boardSprite.color = Color.red;
+                    Characters [activeCell].GetComponent<TorcidaMove> ().boardSprite.color = Color.red;
                     missedTiming = true;
                     isActive = false;
                     //bloquear linha por tempo
                 }
             }
-		}
+        }
 		if (!offColor && !isActive) {
 			foreach (var item in Characters) {
 				item.GetComponent<CharacterCreation> ().TurnOffColors ();
@@ -127,6 +134,14 @@ public class LineController : MonoBehaviour
                 print("Reset timer");
             }
         }
+        
+        if (vibrateTime >= 1 && vibrate)
+        {
+            print("ENTREI");
+            GamePad.SetVibration(PlayerIndex.One, 0, 0);
+            vibrate = false;
+        }
+        vibrateTime += Time.fixedDeltaTime;
     }
 
     public KeyCode randomizeKey()
