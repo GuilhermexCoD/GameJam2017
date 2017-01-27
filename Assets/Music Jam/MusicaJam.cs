@@ -62,7 +62,7 @@ public class MusicaJam : MonoBehaviour {
 			}
 
 		}
-		lerp = Mathf.Clamp01 ((spectrum [indexMaxSpec] / max) * 2);
+		lerp = Mathf.Clamp01 ((spectrum [indexMaxSpec] / max));
 		if (spectrum [indexMaxSpec] > max * winPercent) {
 			active = true;
 		} else {

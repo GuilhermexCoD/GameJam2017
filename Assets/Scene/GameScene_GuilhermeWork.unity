@@ -636,6 +636,7 @@ MonoBehaviour:
   maxWinTime: 8
   maxDecayTime: 2
   pressed: 0
+  wrong: 0
   praticlePrefab: {fileID: 168542, guid: 5702e2a6fea804b45b49b70d8feaf7ae, type: 2}
 --- !u!4 &159055403
 Transform:
@@ -2452,7 +2453,7 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: d8bb3aaa6f08639468f686a29c1beb5e, type: 3}
     m_FontSize: 300
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 1
     m_MaxSize: 300
     m_Alignment: 4
@@ -4134,6 +4135,7 @@ MonoBehaviour:
   maxWinTime: 8
   maxDecayTime: 2
   pressed: 0
+  wrong: 0
   praticlePrefab: {fileID: 168542, guid: 5702e2a6fea804b45b49b70d8feaf7ae, type: 2}
 --- !u!4 &1317541364
 Transform:
@@ -5010,6 +5012,7 @@ MonoBehaviour:
   maxWinTime: 8
   maxDecayTime: 2
   pressed: 0
+  wrong: 0
   praticlePrefab: {fileID: 168542, guid: 5702e2a6fea804b45b49b70d8feaf7ae, type: 2}
 --- !u!4 &1695913353
 Transform:

@@ -70,11 +70,13 @@ public class RhythmController : MonoBehaviour {
 	public AudioSource audioSHitWin;
 	public AudioSource audioSStreak3;
 	public AudioSource audioSWin;
+	public List<AudioSource> audioList= new List<AudioSource>() ;
 	public bool pressedVerticalAxis;
 
 
 	public bool teste;
 	public bool win;
+	public bool lost;
 	public float timerWin;
 
 	public bool ReadyToPlay;
@@ -83,7 +85,10 @@ public class RhythmController : MonoBehaviour {
 	public int CountCompleteLine;
 	void Awake ()
 	{
-		
+		audioList.Add (audioS);
+		audioList.Add (audioSHitWin);
+		audioList.Add (audioSStreak3);
+		audioList.Add (audioSWin);
 		win = false;
 		ReadyToPlay = false;
 		anim =this.gameObject.GetComponentInChildren<Animator> ();
@@ -152,7 +157,9 @@ public class RhythmController : MonoBehaviour {
 			float y = Mathf.Sin (Mathf.PI / 2);
 
 
-			CheckSinAction ();
+//			CheckSinAction ();
+			CheckForMusicSpectrum ();
+			LoseCondition ();
 
 
 
@@ -223,15 +230,48 @@ public class RhythmController : MonoBehaviour {
 	}
 
 	public void CheckForMusicSpectrum(){
+		Splash.color = new Color (Splash.color.r, Splash.color.g, Splash.color.b, Mathf.Clamp (mainCamera.GetComponent<MusicaJam> ().lerp, 0, 1));
+		Splash1.color = new Color (Splash1.color.r, Splash1.color.g, Splash1.color.b, Mathf.Clamp (mainCamera.GetComponent<MusicaJam> ().lerp, 0, 1));
 		if (mainCamera.GetComponent<MusicaJam> ().active) {
-			Splash.color = new Color (Splash.color.r, Splash.color.g, Splash.color.b, Mathf.Clamp (mainCamera.GetComponent<MusicaJam> ().lerp, 0.2f, 1));
-			Splash1.color = new Color (Splash1.color.r, Splash1.color.g, Splash1.color.b, Mathf.Clamp (mainCamera.GetComponent<MusicaJam> ().lerp, 0.2f, 1));
+			
 			action = true;
 		} else {
 			action = false;
 			lineList [activeLine].GetComponent<LineController> ().pressed = false;
 		}
 	}
+
+	public void LoseCondition(){
+		int countLose = 0;
+		foreach (var item in lineList) {
+			if (item.GetComponent<LineController> ().wrong) {
+				countLose++;
+			}
+
+
+
+		}
+		if (countLose == lineList.Count) {
+			lost = true;
+		}
+
+		if (lost) {
+			print("lost the game Restart");
+			inicialCounter.text = "You Lose!!!";
+			inicialCounter.gameObject.SetActive (true);
+			foreach (var item in audioList) {
+				item.Stop ();
+				//tocar musica de perda
+				if (Input.anyKeyDown) {
+					print ("restart Level");
+					SceneLoader.singleton.RestartGame ();
+				}
+			}
+		}
+
+
+	}
+
 
 	void Update(){
 		if (ReadyToPlay) {
@@ -240,6 +280,7 @@ public class RhythmController : MonoBehaviour {
 			if (CheckWin () && !win) {
 			
 				win = true;
+				inicialCounter.text = "You Win!!!";
 				audioSWin.Play ();
 			}
 

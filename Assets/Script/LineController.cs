@@ -31,6 +31,7 @@ public class LineController : MonoBehaviour
 	float win=1,loss =1;
 	float winLossRation;
     bool everyoneStopped;
+	public bool wrong;
     int waveCount;
 
     float testAmplitude;
@@ -78,6 +79,9 @@ public class LineController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+		if (isActive) {
+			wrong = false;
+		}
 		if (RhythmController.singleton.ReadyToPlay) {
 			
 		
@@ -146,6 +150,7 @@ public class LineController : MonoBehaviour
 							missedTiming = false;
 						} else {
 							//				print ("Errou");
+							wrong = true;
 							loss++;
 							Characters [activeCell].GetComponent<TorcidaMove> ().anim.SetInteger ("State", (int)TorcedorState.idle);
 							Characters [activeCell].GetComponent<TorcidaMove> ().boardSprite.color = Color.red;
@@ -159,6 +164,7 @@ public class LineController : MonoBehaviour
 						Characters [activeCell].GetComponent<TorcidaMove> ().keySprite.sprite = RhythmController.singleton.feedbackSprite [1];
 						Characters [activeCell].GetComponent<TorcidaMove> ().anim.SetInteger ("State", (int)TorcedorState.idle);
 						//			print ("Errou");
+						wrong = true;
 						Miss ();
 						loss++;
 						Characters [activeCell].GetComponent<TorcidaMove> ().boardSprite.color = Color.red;
