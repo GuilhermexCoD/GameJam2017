@@ -281,6 +281,7 @@ public class RhythmController : MonoBehaviour {
 			
 				win = true;
 				inicialCounter.text = "You Win!!!";
+				inicialCounter.gameObject.SetActive (true);
 				audioSWin.Play ();
 			}
 

@@ -15,6 +15,7 @@ public class MusicaJam : MonoBehaviour {
 	public bool active;
 	public float winPercent;
 	public float lerp;
+	float timer;
 	// Use this for initialization
 	void Start () {
 		radius = numberOfObjects * 0.2f;
@@ -65,9 +66,13 @@ public class MusicaJam : MonoBehaviour {
 		lerp = Mathf.Clamp01 ((spectrum [indexMaxSpec] / max));
 		if (spectrum [indexMaxSpec] > max * winPercent) {
 			active = true;
-		} else {
-			active = false;
-		}
+			timer += Time.fixedDeltaTime;
+		} else{
+			if (timer >= winPercent) {
+				timer = 0;
+				active = false;
+			}
+		} 
 
 
 
