@@ -11,7 +11,10 @@ public class MusicaJam : MonoBehaviour {
 	public GameObject[] musicObject;
 	public float min,max;
 	public float spectrumMultiplier;
-
+	public int indexMaxSpec;
+	public bool active;
+	public float winPercent;
+	public float lerp;
 	// Use this for initialization
 	void Start () {
 		radius = numberOfObjects * 0.2f;
@@ -55,10 +58,18 @@ public class MusicaJam : MonoBehaviour {
 			}
 			if (spectrum[i] > max) {
 				max = spectrum [i];
+				indexMaxSpec = i;
 			}
 
-
 		}
+		lerp = Mathf.Clamp01 ((spectrum [indexMaxSpec] / max) * 2);
+		if (spectrum [indexMaxSpec] > max * winPercent) {
+			active = true;
+		} else {
+			active = false;
+		}
+
+
 
 
 		

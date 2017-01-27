@@ -1746,6 +1746,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09fcd8174805961448c4a7e231fd5aaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Splash: {fileID: 0}
+  Splash1: {fileID: 0}
   pauseScreen: {fileID: 0}
   anim: {fileID: 0}
   mainCamera: {fileID: 0}
@@ -1767,9 +1769,9 @@ MonoBehaviour:
   timeSet: 2
   actionTime: 1
   action: 0
-  wave: {fileID: 1046946781714982, guid: f696527063f945f47bd8b9fe6a21daeb, type: 2}
+  wave: {fileID: 0}
   newWave: {fileID: 0}
-  frequency: 7.37
+  frequency: 6.8
   amplitude: 3
   timerSine: 0
   countMovement: 0
@@ -1800,12 +1802,14 @@ MonoBehaviour:
   audioS: {fileID: 0}
   audioSHitWin: {fileID: 0}
   audioSStreak3: {fileID: 0}
+  audioSWin: {fileID: 0}
   pressedVerticalAxis: 0
   teste: 0
   win: 0
   timerWin: 0
   ReadyToPlay: 0
   TimerReady: 0
+  CountCompleteLine: 0
 --- !u!212 &212032635090177926
 SpriteRenderer:
   m_ObjectHideFlags: 1

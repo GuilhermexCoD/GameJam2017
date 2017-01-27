@@ -151,18 +151,15 @@ public class RhythmController : MonoBehaviour {
 			}
 			float y = Mathf.Sin (Mathf.PI / 2);
 
+
+			CheckSinAction ();
+
+
+
 //		mainCamera.GetComponent<UnityStandardAssets.ImageEffects.VignetteAndChromaticAberration> ().intensity =Mathf.Abs(y)*(3/2);
 //		print (((timerSine * frequency / 2)/Mathf.PI)-countMovement);
 
-			if ((Mathf.Abs (Mathf.Sin (timerSine * frequency / 2))) > 0.4f) {
-				mainCamera.GetComponent<UnityStandardAssets.ImageEffects.VignetteAndChromaticAberration> ().intensity = Mathf.Clamp (Mathf.Abs (Mathf.Sin (timerSine * frequency / 2)) - 0.6f, 0, 0.2f);
-				Splash.color = new Color(Splash.color.r,Splash.color.g,Splash.color.b, Mathf.Clamp (Mathf.Abs (Mathf.Sin (timerSine * frequency / 2)) - 0.6f, 0, 0.2f));
-				Splash1.color =new Color(Splash1.color.r,Splash1.color.g,Splash1.color.b, Mathf.Clamp (Mathf.Abs (Mathf.Sin (timerSine * frequency / 2)) - 0.6f, 0, 0.2f));
-				action = true;
-			} else {
-				action = false;
-				lineList [activeLine].GetComponent<LineController> ().pressed = false;
-			}
+		
 //
 //		if (((timerSine * frequency / 2)/Mathf.PI/2)-0.5f >){
 //
@@ -211,6 +208,28 @@ public class RhythmController : MonoBehaviour {
 
 		} else {
 			StartCounter ();
+		}
+	}
+	public void CheckSinAction(){
+		if ((Mathf.Abs (Mathf.Sin (timerSine * frequency / 2))) > 0.4f) {
+			mainCamera.GetComponent<UnityStandardAssets.ImageEffects.VignetteAndChromaticAberration> ().intensity = Mathf.Clamp (Mathf.Abs (Mathf.Sin (timerSine * frequency / 2)) - 0.6f, 0, 0.2f);
+			Splash.color = new Color(Splash.color.r,Splash.color.g,Splash.color.b, Mathf.Clamp (Mathf.Abs (Mathf.Sin (timerSine * frequency / 2)) - 0.6f, 0, 0.2f));
+			Splash1.color =new Color(Splash1.color.r,Splash1.color.g,Splash1.color.b, Mathf.Clamp (Mathf.Abs (Mathf.Sin (timerSine * frequency / 2)) - 0.6f, 0, 0.2f));
+			action = true;
+		} else {
+			action = false;
+			lineList [activeLine].GetComponent<LineController> ().pressed = false;
+		}
+	}
+
+	public void CheckForMusicSpectrum(){
+		if (mainCamera.GetComponent<MusicaJam> ().active) {
+			Splash.color = new Color (Splash.color.r, Splash.color.g, Splash.color.b, Mathf.Clamp (mainCamera.GetComponent<MusicaJam> ().lerp, 0.2f, 1));
+			Splash1.color = new Color (Splash1.color.r, Splash1.color.g, Splash1.color.b, Mathf.Clamp (mainCamera.GetComponent<MusicaJam> ().lerp, 0.2f, 1));
+			action = true;
+		} else {
+			action = false;
+			lineList [activeLine].GetComponent<LineController> ().pressed = false;
 		}
 	}
 
