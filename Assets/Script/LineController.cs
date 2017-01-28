@@ -79,6 +79,7 @@ public class LineController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+		pressed = false;
 		if (isActive) {
 			wrong = false;
 		}
@@ -115,6 +116,7 @@ public class LineController : MonoBehaviour
 				for (int i = 0; i < RhythmController.singleton.validKeys.Count; i++) {
 					if (Input.GetKeyDown (RhythmController.singleton.validKeys [i]) || Input.GetKeyDown (RhythmController.singleton.validKeysJoystick [i]) && (sequence [activeCell] == RhythmController.singleton.validKeys [i])) {
 						//				print ("Apertei certo");
+						RhythmController.singleton.streak = true;
 						if (RhythmController.singleton.action && !pressed) {
 							//levantar
 							Characters [activeCell].GetComponent<TorcidaMove> ().anim.SetInteger ("State", (int)TorcedorState.standing);
@@ -122,6 +124,8 @@ public class LineController : MonoBehaviour
 							Characters [activeCell].GetComponent<TorcidaMove> ().keySprite.sprite = RhythmController.singleton.feedbackSprite [0];
 							GameObject p = (GameObject)Instantiate (praticlePrefab, Characters [activeCell].transform.position + new Vector3 (0, 1.3f, 0), Quaternion.identity);
 							RhythmController.singleton.audioSHitWin.Play ();
+							RhythmController.singleton.streakCount++;
+							RhythmController.singleton.countNoStreak = 0;
 							if (activeCell >= 3 && !RhythmController.singleton.audioSStreak3.isPlaying) {
 							
 								RhythmController.singleton.audioSStreak3.Play ();
@@ -135,6 +139,7 @@ public class LineController : MonoBehaviour
 							if (activeCell < sequence.Count - 1)
 								activeCell++;
 							else {
+								RhythmController.singleton.score += 1000;
 								activeCell = 0;
 								//nao pode resetar de imediato
 //                            restartLine();
@@ -284,6 +289,11 @@ public class LineController : MonoBehaviour
         }
     }
 	public void Miss(){
+		RhythmController.singleton.comboDecres++;
+		RhythmController.singleton.streak = false;
+		RhythmController.singleton.incrementStreakScore ();
+		RhythmController.singleton.streakCount = 0;
+	
 
 		foreach (var item in Characters) {
 			

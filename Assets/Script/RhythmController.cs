@@ -12,6 +12,14 @@ public class RhythmController : MonoBehaviour {
 		batuque,
 		pandeiro
 	}
+	public int streakCount;
+	public float score;
+	public float scoreLineComplete =1000;
+	public float scoreSingleHit = 100;
+	public float scoreTimeDecrement = 1;
+	public float comboDecres;
+	public float timerScore;
+	public int countNoStreak;
 
 	public Image Splash;
 	public Image Splash1;
@@ -33,6 +41,9 @@ public class RhythmController : MonoBehaviour {
 	public Text activeLineText2;
 
 	public Text inicialCounter;
+	public Text scoreText;
+	public Text comboText;
+	public bool streak;
 	public Button pressButton;
 
 	float timing, spaceTime, prevBeat;
@@ -81,10 +92,12 @@ public class RhythmController : MonoBehaviour {
 
 	public bool ReadyToPlay;
 	public float TimerReady;
-
+	int count = 0;
 	public int CountCompleteLine;
 	void Awake ()
 	{
+		scoreText.gameObject.SetActive (false);
+		comboText.gameObject.SetActive (false);
 		audioList.Add (audioS);
 		audioList.Add (audioSHitWin);
 		audioList.Add (audioSStreak3);
@@ -135,9 +148,36 @@ public class RhythmController : MonoBehaviour {
 
 	void FixedUpdate () 
 	{
+		
 
 		if (ReadyToPlay) {
-			
+			timerScore += Time.fixedDeltaTime;
+			scoreText.gameObject.SetActive (true);
+			comboText.gameObject.SetActive (streak);
+			if (!win && !lost) {
+				score -= scoreTimeDecrement+comboDecres;
+			}
+
+			scoreText.text = score.ToString();
+			comboText.text = streakCount.ToString();
+			if (action && Input.anyKeyDown) {
+				
+
+			} else if (!action) {
+				if (count ==0) {
+					countNoStreak++;
+				}
+				count++;
+				if (countNoStreak==2) {
+//					streak = false;
+					incrementStreakScore();
+					streakCount = 0;
+					countNoStreak = 0;
+				}
+
+			}
+
+
 		
 	
 
@@ -150,6 +190,7 @@ public class RhythmController : MonoBehaviour {
 //			timer.text += " Go";
 //		}
 			if (action) {
+				count = 0;
 				pressButton.image.color = Color.green;
 			} else {
 				pressButton.image.color = Color.red;
@@ -376,6 +417,11 @@ public class RhythmController : MonoBehaviour {
 			}
 		} 
 
+	}
+	public void incrementStreakScore(){
+		float combo = 1 + ((float)streakCount / 10);
+		print (scoreSingleHit * streakCount*combo);
+		score += scoreSingleHit * streakCount*combo;
 	}
 	public bool CheckWin(){
 
