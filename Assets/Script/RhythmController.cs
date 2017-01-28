@@ -60,8 +60,12 @@ public class RhythmController : MonoBehaviour {
 	public float timerSine;
 	public int countMovement;
 
-	public List<int> music = new List<int> ();
-	public int musicSize;
+	public bool UseMobileCanvas;
+	public GameObject MoblieUI;
+	public List<Button> mobileButtons = new List<Button> ();
+	public List<bool> mobileButtonsPressed = new List<bool>();
+
+
 	public int activeLine;
     public List<KeyCode> validKeys = new List<KeyCode>();
 	public List<KeyCode> validKeysJoystick = new List<KeyCode>();
@@ -86,6 +90,7 @@ public class RhythmController : MonoBehaviour {
 	public AudioSource audioSWin;
 	public List<AudioSource> audioList= new List<AudioSource>() ;
 	public bool pressedVerticalAxis;
+	public bool pressedTouchVertical;
 
 
 	public bool teste;
@@ -99,6 +104,7 @@ public class RhythmController : MonoBehaviour {
 	public int CountCompleteLine;
 	void Awake ()
 	{
+		MoblieUI.SetActive (UseMobileCanvas);
 		scoreText.gameObject.SetActive (false);
 		comboText.gameObject.SetActive (false);
 		comboScore.gameObject.SetActive (false);
@@ -140,10 +146,6 @@ public class RhythmController : MonoBehaviour {
 		timing = timeSet;
 		prevBeat = timeSet - actionTime;
 		spaceTime = prevBeat;
-
-		for (int i = 0; i < musicSize; i++) {
-			music.Add (Random.Range(0,3));
-		}
 
 		foreach (var item in lineList) {
 			item.GetComponent<LineController> ().myIndex = lineList.IndexOf (item);
@@ -320,6 +322,12 @@ public class RhythmController : MonoBehaviour {
 
 	}
 
+	public void ResetButtonsWhenPressed(){
+		for (int i = 0; i < mobileButtonsPressed.Count; i++) {
+			mobileButtonsPressed [i] = false;
+		}
+	}
+
 
 	void Update(){
 		if (ReadyToPlay) {
@@ -422,7 +430,53 @@ public class RhythmController : MonoBehaviour {
 			if (Input.GetAxis ("Vertical") == 0) {
 				pressedVerticalAxis = false;
 			}
+
+			if (Input.touchCount > 0) {
+				
+				Touch myTouch = Input.GetTouch (0);
+
+				if (myTouch.deltaPosition.y < -10 && !pressedTouchVertical && activeLine != lineList.Count - 1) {
+					print ("descendo" + myTouch.deltaPosition);
+					foreach (var item in lineList) {
+						lineList [activeLine].GetComponent<LineController> ().isActive = false;
+					}
+
+					if (!pressedTouchVertical) {
+						activeLine++;
+					}
+					pressedTouchVertical = true;
+					if (!lineList [activeLine].GetComponent<LineController> ().missedTiming) {
+						lineList [activeLine].GetComponent<LineController> ().isActive = true;
+					}
+				}
+
+				if (myTouch.deltaPosition.y > 10 && !pressedTouchVertical && activeLine != 0) {
+					print ("subindo" + myTouch.deltaPosition);
+					foreach (var item in lineList) {
+						lineList [activeLine].GetComponent<LineController> ().isActive = false;
+					}
+
+					if (!pressedTouchVertical) {
+						activeLine--;
+					}
+					pressedTouchVertical = true;
+
+					if (!lineList [activeLine].GetComponent<LineController> ().missedTiming) {
+						lineList [activeLine].GetComponent<LineController> ().isActive = true;
+					}
+				}
+
+				if (myTouch.deltaPosition.y == 0) {
+					pressedTouchVertical = false;
+				}
+			}
+		
 		} 
+
+	}
+	public void PressedButton(int indexButton){
+
+		mobileButtonsPressed [indexButton] = true;
 
 	}
 	public void incrementStreakScore(){
@@ -452,6 +506,11 @@ public class RhythmController : MonoBehaviour {
 	}
 	public int ConvertKey2Int(KeyCode key){
 		return (int)key;
+	}
+
+	public void PauseGame(){
+		SceneLoader.singleton.PauseGame ();
+
 	}
 
 	public void StartCounter(){

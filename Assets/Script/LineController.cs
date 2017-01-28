@@ -114,8 +114,9 @@ public class LineController : MonoBehaviour
 				RhythmController.singleton.timer.text = sequence [activeCell].ToString ();
 				//For each valid key
 				for (int i = 0; i < RhythmController.singleton.validKeys.Count; i++) {
-					if (Input.GetKeyDown (RhythmController.singleton.validKeys [i]) || Input.GetKeyDown (RhythmController.singleton.validKeysJoystick [i]) && (sequence [activeCell] == RhythmController.singleton.validKeys [i])) {
+					if ((Input.GetKeyDown (RhythmController.singleton.validKeys [i]) || Input.GetKeyDown (RhythmController.singleton.validKeysJoystick [i]) || RhythmController.singleton.mobileButtonsPressed[i]) && (sequence [activeCell] == RhythmController.singleton.validKeys [i])) {
 						//				print ("Apertei certo");
+						RhythmController.singleton.ResetButtonsWhenPressed();
 						RhythmController.singleton.streak = true;
 						if (RhythmController.singleton.action && !pressed) {
 							//levantar
@@ -167,7 +168,8 @@ public class LineController : MonoBehaviour
 							//bloquear linha por tempo, resetar animacoes, etc...
 							isActive = false;
 						}
-					} else if (Input.GetKeyDown (RhythmController.singleton.validKeys [i]) || Input.GetKeyDown (RhythmController.singleton.validKeysJoystick [i])) {
+					} else if (Input.GetKeyDown (RhythmController.singleton.validKeys [i]) || Input.GetKeyDown (RhythmController.singleton.validKeysJoystick [i]) || RhythmController.singleton.mobileButtonsPressed[i]) {
+						RhythmController.singleton.ResetButtonsWhenPressed ();
 						Characters [activeCell].GetComponent<TorcidaMove> ().keySprite.sprite = RhythmController.singleton.feedbackSprite [1];
 						Characters [activeCell].GetComponent<TorcidaMove> ().anim.SetInteger ("State", (int)TorcedorState.idle);
 						//			print ("Errou");
@@ -179,6 +181,7 @@ public class LineController : MonoBehaviour
 						isActive = false;
 						//bloquear linha por tempo
 					}
+
 				}
 
 			} else {
@@ -281,6 +284,7 @@ public class LineController : MonoBehaviour
         missTimer = 0;
         completedLine = false;
         missedTiming = false;
+		wrong = false;
         sequence.Clear();
         for (int i = 0; i < this.transform.childCount; i++)
         {
