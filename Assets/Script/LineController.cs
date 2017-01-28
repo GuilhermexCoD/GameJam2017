@@ -124,6 +124,8 @@ public class LineController : MonoBehaviour
 							Characters [activeCell].GetComponent<TorcidaMove> ().keySprite.sprite = RhythmController.singleton.feedbackSprite [0];
 							GameObject p = (GameObject)Instantiate (praticlePrefab, Characters [activeCell].transform.position + new Vector3 (0, 1.3f, 0), Quaternion.identity);
 							RhythmController.singleton.audioSHitWin.Play ();
+							RhythmController.singleton.comboText.color = RhythmController.singleton.ComboColor[Random.Range(0, RhythmController.singleton.ComboColor.Count)];
+							RhythmController.singleton.comboScore.color = RhythmController.singleton.comboText.color;
 							RhythmController.singleton.streakCount++;
 							RhythmController.singleton.countNoStreak = 0;
 							if (activeCell >= 3 && !RhythmController.singleton.audioSStreak3.isPlaying) {

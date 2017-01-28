@@ -20,6 +20,7 @@ public class RhythmController : MonoBehaviour {
 	public float comboDecres;
 	public float timerScore;
 	public int countNoStreak;
+	public List<Color> ComboColor = new List<Color> ();
 
 	public Image Splash;
 	public Image Splash1;
@@ -43,6 +44,8 @@ public class RhythmController : MonoBehaviour {
 	public Text inicialCounter;
 	public Text scoreText;
 	public Text comboText;
+	public Text comboScore;
+	public float timerComboScore;
 	public bool streak;
 	public Button pressButton;
 
@@ -98,6 +101,7 @@ public class RhythmController : MonoBehaviour {
 	{
 		scoreText.gameObject.SetActive (false);
 		comboText.gameObject.SetActive (false);
+		comboScore.gameObject.SetActive (false);
 		audioList.Add (audioS);
 		audioList.Add (audioSHitWin);
 		audioList.Add (audioSStreak3);
@@ -159,7 +163,7 @@ public class RhythmController : MonoBehaviour {
 			}
 
 			scoreText.text = score.ToString();
-			comboText.text = streakCount.ToString();
+			comboText.text ="Combo "+ streakCount.ToString()+"x";
 			if (action && Input.anyKeyDown) {
 				
 
@@ -176,6 +180,9 @@ public class RhythmController : MonoBehaviour {
 				}
 
 			}
+			comboScore.gameObject.SetActive (streak);
+			comboScore.text = (scoreSingleHit * streakCount * (1 + ((float)streakCount / 10))).ToString();
+
 
 
 		
@@ -420,6 +427,7 @@ public class RhythmController : MonoBehaviour {
 	}
 	public void incrementStreakScore(){
 		float combo = 1 + ((float)streakCount / 10);
+		streak = false;
 		print (scoreSingleHit * streakCount*combo);
 		score += scoreSingleHit * streakCount*combo;
 	}
